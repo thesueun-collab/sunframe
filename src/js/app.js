@@ -23,12 +23,14 @@ const SPOT_CODE = (() => {
 // 이태원 할로윈 시작 화면(?spot=itaewon): 바다 사진·반짝임 대신 포스터 모양 (index.html 머리의 표시와 같은 조건)
 const IS_ITAEWON = SPOT_CODE === 'itaewon';
 // 명소 이름: 처음엔 임시 표 값, Supabase 응답이 오면 갱신. 시작 화면에는 쓰지 않음 (6단계 네 컷 하단에 사용)
-let SPOT_NAME = SPOT_CODE && Object.prototype.hasOwnProperty.call(SPOTS, SPOT_CODE) ? SPOTS[SPOT_CODE] : null;
+// 서버 이름 대신 네 컷 하단에 쓸 이름 (주소·통계 코드는 그대로). 이태원 할로윈 에디션을 홍대에서 운영
+const SPOT_NAME_OVERRIDE = { itaewon: '홍대 Hongdae' };
+let SPOT_NAME = SPOT_NAME_OVERRIDE[SPOT_CODE] || (SPOT_CODE && Object.prototype.hasOwnProperty.call(SPOTS, SPOT_CODE) ? SPOTS[SPOT_CODE] : null);
 // true = 서버에 있는 코드, false = 서버에 없는 코드, null = 모름(아직 조회 전 또는 네트워크 실패)
 let SPOT_VALID = null;
 if (SPOT_CODE) {
   fetchSpot(SPOT_CODE).then(spot => {
-    if (spot) { SPOT_VALID = true; SPOT_NAME = spot.name; }
+    if (spot) { SPOT_VALID = true; SPOT_NAME = SPOT_NAME_OVERRIDE[SPOT_CODE] || spot.name; }
     else { SPOT_VALID = false; SPOT_NAME = null; }
     previewDrawn = { base: null, tone: undefined };   // 이름이 바뀌었을 수 있으니 미리보기를 다시 그리게
   }).catch(() => { /* 네트워크 실패: SPOT_VALID = null, 임시 표 이름 유지 */ });
