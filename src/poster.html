@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>포스터 · frame your memory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Fredoka:wght@500;600&family=Eater&family=Rye&family=IM+Fell+English:ital@0;1&family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/poster.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" defer></script>
+  <script src="js/supabase.js" defer></script>
+  <script src="js/poster.js" defer></script>
+</head>
+<body class="poster-page">
+  <div class="toolbar">
+    <button id="print" type="button">인쇄하기 <small>Print</small></button>
+    <p>인쇄 설정: A4 · 여백 없음 · 배경 그래픽 켜기<br><small>A4 · no margins · background graphics on</small></p>
+  </div>
+
+  <p id="missing" class="missing" hidden>주소 끝에 ?spot=명소코드 를 붙여 주세요<br><small>Add ?spot=SPOT_CODE to the address</small></p>
+
+  <div id="stage" class="stage" hidden>
+    <main id="sheet" class="sheet">
+      <img class="logo" src="assets/logo-black-hd.png" alt="frame your memory">
+      <h1 id="spot-name" class="spot-name"></h1>
+      <p id="warn" class="warn" hidden>명소 이름을 불러오지 못했어요 <small>Couldn't load the spot name</small></p>
+      <p class="tagline">해변네컷 찍어보세요!<small>Try this beachbooth!</small></p>
+
+      <section class="qr-card">
+        <div id="qr" class="qr"></div>
+        <p id="qr-url" class="qr-url" hidden></p>
+      </section>
+
+      <p class="scan-hint">QR을 스캔하세요<small>Scan the QR</small></p>
+
+      <footer class="foot"><span>앱 설치 없이 무료 · No app needed, free</span><span class="handle">@sunframestudio</span></footer>
+    </main>
+  </div>
+</body>
+</html>

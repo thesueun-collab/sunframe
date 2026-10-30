@@ -1,0 +1,82 @@
+[
+  {
+    "id": "01-pumpkin",
+    "file": "01-pumpkin.png",
+    "w": 274,
+    "h": 263,
+    "ko": "호박",
+    "en": "Pumpkin"
+  },
+  {
+    "id": "02-ghost",
+    "file": "02-ghost.png",
+    "w": 274,
+    "h": 269,
+    "ko": "유령",
+    "en": "Ghost"
+  },
+  {
+    "id": "03-blackcat",
+    "file": "03-blackcat.png",
+    "w": 287,
+    "h": 282,
+    "ko": "검은 고양이",
+    "en": "Black Cat"
+  },
+  {
+    "id": "04-witchhat",
+    "file": "04-witchhat.png",
+    "w": 295,
+    "h": 273,
+    "ko": "마녀 모자",
+    "en": "Witch Hat"
+  },
+  {
+    "id": "05-moon",
+    "file": "05-moon.png",
+    "w": 213,
+    "h": 238,
+    "ko": "초승달",
+    "en": "Moon"
+  },
+  {
+    "id": "06-bat",
+    "file": "06-bat.png",
+    "w": 309,
+    "h": 168,
+    "ko": "박쥐",
+    "en": "Bat"
+  },
+  {
+    "id": "07-candy",
+    "file": "07-candy.png",
+    "w": 262,
+    "h": 216,
+    "ko": "사탕",
+    "en": "Candy"
+  },
+  {
+    "id": "08-star",
+    "file": "08-star.png",
+    "w": 191,
+    "h": 190,
+    "ko": "별",
+    "en": "Star"
+  },
+  {
+    "id": "09-spiderweb",
+    "file": "09-spiderweb.png",
+    "w": 256,
+    "h": 254,
+    "ko": "거미줄",
+    "en": "Spider Web"
+  },
+  {
+    "id": "10-skull",
+    "file": "10-skull.png",
+    "w": 220,
+    "h": 219,
+    "ko": "해골",
+    "en": "Skull"
+  }
+]

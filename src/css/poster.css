@@ -1,0 +1,137 @@
+/* 나눔손글씨 끄트머리체(네이버 클로바, SIL OFL): 할로윈 전단 하단 한글용. 앱 하단 이름과 같은 파일(쓰는 글자만 남김) */
+@font-face { font-family: 'GgeuTeuMeoRi'; font-weight: 400; font-style: normal; font-display: block;
+  src: url('../assets/fonts/nanum-ggeuteumeori-sub.woff2') format('woff2'); }
+
+/* QR 포스터: style.css 의 @font-face 만 재사용, body 규칙은 덮어씀 */
+body.poster-page {
+  background: #120d08; color: #1a1a1a; font-family: 'NanumHuman', system-ui, sans-serif;
+  height: auto; min-height: 100dvh; overflow-x: hidden; overflow-y: auto;
+}
+html:has(body.poster-page) { height: auto; }
+.poster-page small { font-weight: 400; }
+
+.toolbar { max-width: 640px; margin: 0 auto; padding: 16px 16px 12px; text-align: center; color: #f6efe4; }
+.toolbar button {
+  font: 800 18px 'NanumHuman', sans-serif; color: #1a1a1a; background: #f6efe4; border: 0; border-radius: 999px;
+  padding: 10px 28px; cursor: pointer;
+}
+.toolbar button small { font: 500 13px 'Fredoka', sans-serif; margin-left: 6px; }
+.toolbar p { margin: 10px 0 0; font-size: 13px; line-height: 1.5; color: #d9cdbb; }
+.toolbar p small { opacity: .75; font-family: 'Fredoka', sans-serif; }
+.missing { margin: 40px 16px; text-align: center; color: #f6efe4; font-size: 20px; line-height: 1.6; }
+.missing small { font: 500 14px 'Fredoka', sans-serif; opacity: .7; }
+.missing[hidden], .stage[hidden], .warn[hidden] { display: none; }
+
+/* 화면: JS 가 --s(축소 배율)와 stage 크기를 지정. 시트는 mm 레이아웃 그대로 transform 으로 축소 */
+.stage { margin: 0 auto 32px; position: relative; }
+.sheet {
+  width: 210mm; height: 297mm; padding: 14mm; background: #f6efe4; color: #1a1a1a;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  position: relative; transform-origin: top left; transform: scale(var(--s, 1));
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .6);
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.sheet > * { flex: none; }
+.logo { width: 82mm; height: auto; display: block; margin: 0; filter: none; }   /* style.css 의 시작 화면 로고 그림자 끔 */
+.spot-name { margin: 0; font: 400 21mm/1.2 'Jua', 'NanumHuman', sans-serif; white-space: nowrap; max-width: 100%; }   /* Jua 는 글자가 줄보다 튀어나와 줄 높이 1.2 */
+.warn { margin: 0; font-size: 3.2mm; color: #b4532a; }
+.tagline { margin: 0; font: 400 11mm/1.15 'Jua', 'NanumHuman', sans-serif; }   /* 사용자 요청으로 크게 */
+.tagline small { display: block; margin-top: 1.5mm; font: 500 5.5mm/1.1 'Fredoka', sans-serif; color: #6b5f52; }
+
+.qr-card {
+  margin: 0; background: #fff; border-radius: 6mm; padding: 2mm;
+  box-shadow: 0 2px 10px rgba(60, 40, 20, .18); display: flex; flex-direction: column; align-items: center;
+}
+.qr { width: 100mm; min-height: 20mm; }
+.qr svg { display: block; width: 100mm; height: 100mm; }
+.qr-url { margin: 0; font: 600 6mm/1.2 'Fredoka', sans-serif; color: #1a1a1a; word-break: break-all; max-width: 100mm; }   /* QR 실패 시에만 보임 */
+.qr-url[hidden] { display: none; }
+
+.scan-hint { margin: 0; font: 700 7mm/1.2 'NanumHuman', 'Jua', sans-serif; }
+.scan-hint small { display: block; margin-top: 1mm; font: 500 4.2mm/1.1 'Fredoka', sans-serif; color: #6b5f52; }
+
+.sheet > * + * { margin-top: auto; }   /* 요소 사이 남는 높이를 고르게 분배, 맨 아래 줄은 바닥에 */
+.foot { padding-top: 0; width: 100%; display: flex; justify-content: space-between; align-items: baseline; font-size: 3.6mm; font-weight: 700; color: #6b5f52; }
+.foot .handle { /* 왼쪽 '앱 설치 없이 무료'와 같은 글씨(나눔휴먼 700, #6b5f52) — 사용자 요청 */ }
+
+/* 이름 두 줄('한글 English'): 한글 크게, 영어 아래 작게 */
+.spot-name .nm-ko, .spot-name .nm-en { display: block; }
+.spot-name .nm-en { font: 500 .38em/1.1 'Fredoka', sans-serif; margin-top: .06em; }
+
+/* 할로윈 테마(이태원): 검정 종이 + 크림 글씨 + 스티커 장식 */
+.deco { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.deco img { position: absolute; display: block; height: auto; }
+html.theme-halloween .sheet { background: #0a0a0a; color: #f6efe4; }
+html.theme-halloween .tagline small,
+html.theme-halloween .scan-hint small,
+html.theme-halloween .foot { color: #b8ab98; }
+html.theme-halloween .qr-card { box-shadow: none; }
+/* 앱 설치 없음·무료 강조 띠: 호박색 바탕 + 검정 글씨, 아래 작은 줄의 같은 문구는 숨김 */
+.free-badge { margin: 0; padding: 3mm 9mm 2.6mm; border-radius: 999px; background: #f39a3c; color: #0a0a0a; font: 400 9.5mm/1.1 'Jua', 'NanumHuman', sans-serif; }
+.free-badge small { display: block; margin-top: .8mm; font: 600 4.6mm/1.1 'Fredoka', sans-serif; color: #2a1a0c; }
+html.has-free-badge .foot { justify-content: center; }
+html.has-free-badge .foot > span:first-child { display: none; }
+/* 강조 띠가 들어간 만큼 로고·QR 을 조금 줄여 줄 사이 숨 쉴 틈 확보 (QR 90mm 도 충분히 큼) */
+html.has-free-badge .logo { width: 70mm; }
+html.has-free-badge .qr, html.has-free-badge .qr svg { width: 90mm; }
+html.has-free-badge .qr svg { height: 90mm; }
+html.has-free-badge .scan-hint { padding-bottom: 5mm; }   /* 강조 띠와 붙어 보이지 않게 */
+/* 이름 줄을 숨기고 문구를 두 줄로 아주 크게 */
+html.no-spot-name .spot-name, html.no-spot-name .warn { display: none; }
+html.no-spot-name .tagline { font-size: 19mm; line-height: 1.12; white-space: pre-line; }
+html.no-spot-name .tagline small { font-size: 6.5mm; margin-top: 3mm; }
+
+@media print {
+  @page { size: A4 portrait; margin: 0; }
+  html, body { background: #f6efe4 !important; height: auto; overflow: visible; margin: 0; }
+  body.poster-page { min-height: 0; }
+  .toolbar, .missing, .warn { display: none !important; }
+  .stage { width: 210mm !important; height: 297mm !important; margin: 0; }
+  .sheet {
+    transform: none !important; box-shadow: none; width: 210mm; height: 297mm;
+    break-after: avoid; page-break-after: avoid; break-inside: avoid;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .qr-card { box-shadow: none; }
+  html.theme-halloween, html.theme-halloween body { background: #0a0a0a !important; }
+  html.theme-vampire, html.theme-vampire body { background: #eb4640 !important; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ?export=1 : 이미지 파일 만들기용 — 버튼·안내·그림자·여백 없이 종이만 왼쪽 위에 원래 크기로 */
+html.export, html.export body { background: #f6efe4; margin: 0; }
+html.export .toolbar { display: none; }
+html.export .stage { margin: 0; }
+html.export .sheet { box-shadow: none; }
+html.export.theme-halloween, html.export.theme-halloween body { background: #0a0a0a; }
+html.export.theme-vampire, html.export.theme-vampire body { background: #eb4640; }
+
+/* 할로윈 파티 전단(이태원): 참고 전단 그림을 시트 전체 바탕으로 깔고, 글씨만 mm 좌표로 올림 (그림 1:1 = 210x297mm) */
+html.theme-vampire .sheet {
+  background: #eb4640 url('../assets/posters/itaewon-vampire-bg.jpg') 0 0 / 100% 100% no-repeat;
+  color: #141010; padding: 0; overflow: hidden; display: block;
+}
+html.theme-vampire .sheet > * { position: absolute; margin: 0; }
+/* 제목: 원본 HALLOWEEN / PARTY NIGHT 자리(입 안, 이빨 사이)에 빨강 글씨, 살짝 기울임 */
+html.theme-vampire .v-title { left: 0; top: 50.5mm; width: 210mm; text-align: center; transform: rotate(1.6deg); transform-origin: 50% 50%; color: #eb4640; }
+/* 제목 글꼴 Eater(사용자 선택 4번). 폭은 JS(fitVampireTitle)가 입안 양옆까지 맞춤, display:table 로 글자 폭만큼만 차지 */
+html.theme-vampire .v-title b { display: table; margin: 0 auto; font: 400 30mm/1 'Eater', cursive; letter-spacing: 0; white-space: nowrap; }
+html.theme-vampire .v-title span { display: table; margin: 1.5mm auto 0; font: 400 14mm/1 'Eater', cursive; letter-spacing: .5mm; white-space: nowrap; }
+/* 아래 빨강 면(입 아래 177mm ~ 울타리 위 270mm): 3단 줄 + 두 줄 문장 */
+html.theme-vampire .qr-card {
+  left: 79mm; top: 188mm; width: 52mm; height: 52mm; padding: 1mm; border-radius: 4.5mm; background: #f3eee6; box-shadow: none;
+  box-sizing: border-box; justify-content: center;
+}
+html.theme-vampire .qr, html.theme-vampire .qr svg { width: 50mm; height: 50mm; min-height: 0; }
+html.theme-vampire .qr svg rect { fill: #f3eee6; }
+html.theme-vampire .qr svg path { fill: #141010; }
+html.theme-vampire .v-left, html.theme-vampire .v-right { top: 198mm; width: 62mm; text-align: center; }
+html.theme-vampire .v-left { left: 11mm; }
+html.theme-vampire .v-right { left: 137mm; }
+html.theme-vampire .v-left b, html.theme-vampire .v-right b { display: block; font: 400 11mm/1.15 'Rye', serif; color: #141010; }
+html.theme-vampire .v-left span, html.theme-vampire .v-right span { display: block; margin-top: 2.5mm; font: 400 6.4mm/1.2 'GgeuTeuMeoRi', 'Nanum Myeongjo', serif; color: #141010; }   /* 손글씨체는 작아 보여 키움 */
+html.theme-vampire .v-line { left: 0; width: 210mm; text-align: center; color: #141010; white-space: nowrap; }
+html.theme-vampire .v-ko { top: 246mm; font: 400 6.6mm/1.3 'GgeuTeuMeoRi', 'Nanum Myeongjo', serif; }
+html.theme-vampire .v-en { top: 257mm; font: 400 6.2mm/1.3 'GgeuTeuMeoRi', serif; }
+/* 아래 두 줄 영어도 한글과 같은 끄트머리체(손글씨라 기울임 없이) */
+html.theme-vampire .v-ko i, html.theme-vampire .v-en i { font-family: 'GgeuTeuMeoRi', serif; font-style: normal; font-weight: 400; font-size: 1em; }

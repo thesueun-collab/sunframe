@@ -1,0 +1,98 @@
+[
+  {
+    "id": "01-tree",
+    "file": "01-tree.png",
+    "w": 300,
+    "h": 307,
+    "ko": "나무",
+    "en": "Tree"
+  },
+  {
+    "id": "02-runner",
+    "file": "02-runner.png",
+    "w": 249,
+    "h": 309,
+    "ko": "달리는 사람",
+    "en": "Runner"
+  },
+  {
+    "id": "03-leaf",
+    "file": "03-leaf.png",
+    "w": 202,
+    "h": 246,
+    "ko": "나뭇잎",
+    "en": "Leaf"
+  },
+  {
+    "id": "04-duck",
+    "file": "04-duck.png",
+    "w": 309,
+    "h": 300,
+    "ko": "오리",
+    "en": "Duck"
+  },
+  {
+    "id": "05-flag",
+    "file": "05-flag.png",
+    "w": 291,
+    "h": 247,
+    "ko": "태극기",
+    "en": "Korean Flag"
+  },
+  {
+    "id": "06-mountain",
+    "file": "06-mountain.png",
+    "w": 301,
+    "h": 218,
+    "ko": "산",
+    "en": "Mountain"
+  },
+  {
+    "id": "07-flower",
+    "file": "07-flower.png",
+    "w": 279,
+    "h": 267,
+    "ko": "보라 꽃",
+    "en": "Purple Flower"
+  },
+  {
+    "id": "08-mushroom",
+    "file": "08-mushroom.png",
+    "w": 230,
+    "h": 242,
+    "ko": "버섯",
+    "en": "Mushroom"
+  },
+  {
+    "id": "09-squirrel",
+    "file": "09-squirrel.png",
+    "w": 287,
+    "h": 244,
+    "ko": "다람쥐",
+    "en": "Squirrel"
+  },
+  {
+    "id": "10-sun",
+    "file": "10-sun.png",
+    "w": 281,
+    "h": 280,
+    "ko": "해",
+    "en": "Sun"
+  },
+  {
+    "id": "11-cloud",
+    "file": "11-cloud.png",
+    "w": 309,
+    "h": 216,
+    "ko": "구름",
+    "en": "Cloud"
+  },
+  {
+    "id": "12-rainbow",
+    "file": "12-rainbow.png",
+    "w": 309,
+    "h": 184,
+    "ko": "무지개",
+    "en": "Rainbow"
+  }
+]

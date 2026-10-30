@@ -1,0 +1,130 @@
+[
+  {
+    "id": "01-dolphin",
+    "file": "01-dolphin.png",
+    "w": 309,
+    "h": 260,
+    "ko": "돌고래",
+    "en": "Dolphin"
+  },
+  {
+    "id": "02-wave",
+    "file": "02-wave.png",
+    "w": 309,
+    "h": 226,
+    "ko": "파도",
+    "en": "Wave"
+  },
+  {
+    "id": "03-starfish-yellow",
+    "file": "03-starfish-yellow.png",
+    "w": 229,
+    "h": 229,
+    "ko": "노란 불가사리",
+    "en": "Yellow Starfish"
+  },
+  {
+    "id": "04-turtle",
+    "file": "04-turtle.png",
+    "w": 286,
+    "h": 233,
+    "ko": "바다거북",
+    "en": "Sea Turtle"
+  },
+  {
+    "id": "05-surfboard",
+    "file": "05-surfboard.png",
+    "w": 234,
+    "h": 248,
+    "ko": "서핑보드",
+    "en": "Surfboard"
+  },
+  {
+    "id": "06-palm-island",
+    "file": "06-palm-island.png",
+    "w": 257,
+    "h": 238,
+    "ko": "야자수 섬",
+    "en": "Palm Island"
+  },
+  {
+    "id": "07-crab",
+    "file": "07-crab.png",
+    "w": 253,
+    "h": 207,
+    "ko": "꽃게",
+    "en": "Crab"
+  },
+  {
+    "id": "08-fish-trio",
+    "file": "08-fish-trio.png",
+    "w": 286,
+    "h": 204,
+    "ko": "물고기 세 마리",
+    "en": "Three Fish"
+  },
+  {
+    "id": "09-shell",
+    "file": "09-shell.png",
+    "w": 200,
+    "h": 194,
+    "ko": "소라고둥",
+    "en": "Seashell"
+  },
+  {
+    "id": "10-clam-pearl",
+    "file": "10-clam-pearl.png",
+    "w": 223,
+    "h": 205,
+    "ko": "진주 조개",
+    "en": "Pearl Clam"
+  },
+  {
+    "id": "11-jellyfish",
+    "file": "11-jellyfish.png",
+    "w": 192,
+    "h": 215,
+    "ko": "해파리",
+    "en": "Jellyfish"
+  },
+  {
+    "id": "12-clownfish",
+    "file": "12-clownfish.png",
+    "w": 264,
+    "h": 200,
+    "ko": "흰동가리",
+    "en": "Clownfish"
+  },
+  {
+    "id": "13-starfish-blue",
+    "file": "13-starfish-blue.png",
+    "w": 202,
+    "h": 194,
+    "ko": "파란 불가사리",
+    "en": "Blue Starfish"
+  },
+  {
+    "id": "14-hibiscus",
+    "file": "14-hibiscus.png",
+    "w": 248,
+    "h": 190,
+    "ko": "히비스커스",
+    "en": "Hibiscus"
+  },
+  {
+    "id": "15-beach",
+    "file": "15-beach.png",
+    "w": 278,
+    "h": 170,
+    "ko": "해변",
+    "en": "Beach"
+  },
+  {
+    "id": "16-splash",
+    "file": "16-splash.png",
+    "w": 238,
+    "h": 183,
+    "ko": "물보라",
+    "en": "Splash"
+  }
+]

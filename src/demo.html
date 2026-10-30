@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>해변네컷 이용 장면 · frame your memory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Fredoka:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/demo.css">
+  <script src="js/demo.js" defer></script>
+</head>
+<body class="demo-page">
+<div id="player">
+  <div id="box">
+    <div id="stage">
+
+      <!-- 배경: 하늘·바다·모래·이젤 뒷부분 (움직이는 조각은 demo.js 가 채움) -->
+      <svg id="bg" class="layer" viewBox="0 0 1600 900" aria-hidden="true">
+        <defs>
+          <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#8fb6d9"/><stop offset=".28" stop-color="#f6c89a"/>
+            <stop offset=".62" stop-color="#f2a97a"/><stop offset="1" stop-color="#e98a6b"/>
+          </linearGradient>
+          <radialGradient id="gSun"><stop offset="0" stop-color="#fff1c9" stop-opacity=".9"/><stop offset="1" stop-color="#fff1c9" stop-opacity="0"/></radialGradient>
+          <linearGradient id="gSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5f93ad"/><stop offset="1" stop-color="#3d6f8c"/></linearGradient>
+          <linearGradient id="gShine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe2a8" stop-opacity=".55"/><stop offset="1" stop-color="#ffe2a8" stop-opacity=".05"/></linearGradient>
+        </defs>
+        <rect width="1600" height="345" fill="url(#gSky)"/>
+        <circle cx="1010" cy="320" r="170" fill="url(#gSun)"/>
+        <circle cx="1010" cy="320" r="62" fill="#fde7b8"/>
+        <g id="clouds"></g>
+        <g id="birds" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".85"></g>
+        <rect y="340" width="1600" height="160" fill="url(#gSea)"/>
+        <path d="M930 340 L1090 340 L1250 495 L770 495Z" fill="url(#gShine)"/>
+        <g id="waves"></g>
+        <g id="glitter"></g>
+        <rect y="488" width="1600" height="412" fill="#ead2a8"/>
+        <path id="wet" fill="#dcc294"/>
+        <path id="foam" fill="#fbf5ea" opacity=".95"/>
+        <!-- 모래 위 작은 장식 -->
+        <g fill="#f3e2c0"><circle cx="120" cy="580" r="7"/><circle cx="400" cy="640" r="5"/><circle cx="1450" cy="600" r="8"/><circle cx="1330" cy="560" r="5"/><circle cx="260" cy="530" r="4"/></g>
+        <g fill="#e7c9a0"><ellipse cx="520" cy="560" rx="22" ry="5"/><ellipse cx="1480" cy="660" rx="30" ry="6"/><ellipse cx="180" cy="640" rx="26" ry="5"/></g>
+        <!-- 이젤(작은 A자 거치대) 뒷부분 -->
+        <ellipse cx="720" cy="664" rx="110" ry="12" fill="rgba(90,60,30,.18)"/>
+        <g stroke="#a67848" stroke-width="14" stroke-linecap="round">
+          <line x1="720" y1="262" x2="632" y2="660"/><line x1="720" y1="262" x2="808" y2="660"/>
+          <line x1="720" y1="300" x2="720" y2="640" stroke="#8a6340" stroke-width="10"/>
+        </g>
+      </svg>
+
+      <!-- 포스터(HTML 카드). QR 무늬는 모양만 흉내 낸 가짜 -->
+      <div id="poster">
+        <img class="p-logo" src="assets/logo-black-hd.png" alt="">
+        <div class="p-name">인구해변</div>
+        <div class="p-tag">해변네컷 찍어보세요!</div>
+        <div class="p-qr" id="pqr"></div>
+        <div class="p-scan">QR을 스캔하세요<small>Scan the QR</small></div>
+      </div>
+
+      <!-- 전경: 이젤 앞턱, 사람, 휴대폰, 스캔 효과 -->
+      <svg id="fg" class="layer" viewBox="0 0 1600 900" aria-hidden="true">
+        <defs>
+          <linearGradient id="phScr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fb6d9"/><stop offset=".45" stop-color="#f6c89a"/><stop offset=".46" stop-color="#5f93ad"/><stop offset="1" stop-color="#3d6f8c"/></linearGradient>
+          <linearGradient id="phShade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1e140a" stop-opacity=".1"/><stop offset="1" stop-color="#1e140a" stop-opacity=".35"/></linearGradient>
+        </defs>
+        <rect x="592" y="586" width="256" height="18" rx="9" fill="#b98a5a"/>
+        <g stroke="#a67848" stroke-width="14" stroke-linecap="round"><line x1="668" y1="604" x2="636" y2="660"/><line x1="772" y1="604" x2="804" y2="660"/></g>
+        <!-- 이젤 선반에 세워둔 휴대폰(앞면) + 앞쪽 얇은 걸쇠 -->
+        <g id="phoneL" opacity="0" transform="translate(720 503.5)">
+          <rect id="phHalo" x="-42" y="-86" width="84" height="172" rx="17" fill="none" stroke="#fff6c8" stroke-width="7" opacity="0"/>
+          <rect x="-38.5" y="-82.5" width="77" height="165" rx="14" fill="#1c1c1c"/>
+          <rect x="-33" y="-77" width="66" height="154" rx="10.5" fill="url(#phScr)"/>
+          <rect x="-33" y="-77" width="66" height="154" rx="10.5" fill="url(#phShade)"/>
+          <image href="assets/logo-white.png" x="-23" y="-20" width="46" height="46" preserveAspectRatio="xMidYMid meet"/>
+          <rect x="-8" y="-73" width="16" height="5" rx="2.5" fill="#1c1c1c"/>
+          <rect id="phGlow" x="-33" y="-77" width="66" height="154" rx="10.5" fill="#ffffff" opacity="0"/>
+        </g>
+        <rect x="675" y="578" width="90" height="8" rx="4" fill="#3a3a3a"/>
+        <ellipse id="shPerson" rx="48" ry="9" fill="rgba(90,60,30,.22)"/>
+        <!-- 사람 -->
+        <g id="person">
+          <g stroke-linecap="round">
+            <line id="legL" stroke="#f1c9a5" stroke-width="17"/><line id="shL" stroke="#7fb3c9" stroke-width="25"/><circle id="shoeL" r="10.5" fill="#f6efe4"/>
+            <line id="legR" stroke="#f1c9a5" stroke-width="17"/><line id="shR" stroke="#7fb3c9" stroke-width="25"/><circle id="shoeR" r="10.5" fill="#f6efe4"/>
+          </g>
+          <rect x="-34" y="-258" width="68" height="114" rx="30" fill="#ffffff"/>
+          <rect x="-34" y="-212" width="68" height="16" fill="#7fb3c9"/>
+          <g id="head">
+            <circle cy="-290" r="34" fill="#f1c9a5"/>
+            <circle cx="-22" cy="-278" r="6" fill="#f4a995" opacity=".7"/><circle cx="22" cy="-278" r="6" fill="#f4a995" opacity=".7"/>
+            <circle cx="-12" cy="-290" r="3.6" fill="#1a1a1a"/><circle cx="12" cy="-290" r="3.6" fill="#1a1a1a"/>
+            <path id="mouth" fill="none" stroke="#1a1a1a" stroke-width="3.5" stroke-linecap="round"/>
+            <!-- 밀짚모자 -->
+            <path d="M-29 -316 Q-29 -354 0 -354 Q29 -354 29 -316Z" fill="#e7c37d"/>
+            <rect x="-29" y="-328" width="58" height="9" fill="#e98a6b"/>
+            <ellipse cy="-316" rx="54" ry="11" fill="#eecf8f"/>
+          </g>
+          <g stroke-linecap="round">
+            <line id="a1L" stroke="#f1c9a5" stroke-width="17"/><line id="a2L" stroke="#f1c9a5" stroke-width="16"/><line id="a1sL" stroke="#ffffff" stroke-width="25"/><circle id="hL" r="9.5" fill="#f1c9a5"/>
+            <line id="a1R" stroke="#f1c9a5" stroke-width="17"/><line id="a2R" stroke="#f1c9a5" stroke-width="16"/><line id="a1sR" stroke="#ffffff" stroke-width="25"/><circle id="hR" r="9.5" fill="#f1c9a5"/>
+          </g>
+          <g id="fxV" stroke="#f1c9a5" stroke-width="6" stroke-linecap="round"><line x1="-2" y1="-6" x2="-9" y2="-27"/><line x1="2" y1="-6" x2="9" y2="-27"/></g>
+          <g id="fxT" stroke="#f1c9a5" stroke-width="9" stroke-linecap="round"><line x1="0" y1="-5" x2="0" y2="-24"/></g>
+          <path id="heart" d="M0 12 C-26 -6 -18 -30 0 -16 C18 -30 26 -6 0 12Z" fill="#e98a6b"/>
+        </g>
+        <!-- 휴대폰(뒷면) -->
+        <g id="phone">
+          <rect x="-29" y="-59" width="58" height="118" rx="13" fill="#262626"/>
+          <rect x="-24" y="-54" width="22" height="22" rx="8" fill="#3a3a3a"/>
+          <circle cx="-13" cy="-43" r="6.5" fill="#15202a"/><circle cx="-13" cy="-43" r="2.5" fill="#6f8fa6"/>
+        </g>
+        <!-- 스캔 효과 -->
+        <g id="scanFx">
+          <g id="brk" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round">
+            <path d="M664 436V420H680"/><path d="M760 420H776V436"/><path d="M664 500V516H680"/><path d="M760 516H776V500"/>
+          </g>
+          <rect id="beam" x="660" y="0" width="120" height="6" rx="3" fill="#fff6c8"/>
+        </g>
+        <g id="check"><circle r="27" fill="#3fae7a"/><path d="M-12 1 L-3 10 L13 -9" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></g>
+      </svg>
+
+      <div id="count"><span id="countN">3</span></div>
+      <div id="corner"><i></i><span id="cornerN">1/6</span></div>
+      <div id="dim"></div>
+
+      <!-- 큰 휴대폰 인셋 -->
+      <div id="bp">
+        <div class="bp-body">
+          <div class="scr scr-start" id="scrStart">
+            <div class="s-bg"></div>
+            <img class="s-logo" src="assets/logo-white.png" alt="">
+            <div class="s-btn" id="sBtn">시작 <small>Start</small></div>
+          </div>
+          <div class="scr scr-edit" id="scrEdit">
+            <div class="hd">필터 · 스티커 <small>Filter &amp; stickers</small></div>
+            <div class="grid4" id="grid4"><div class="warm" id="warm"></div></div>
+            <div class="chips" id="chips"></div>
+            <div class="tray" id="tray"></div>
+          </div>
+          <div class="scr scr-pick" id="scrPick">
+            <div class="hd">4장 고르기 <small>Pick 4</small></div>
+            <div class="grid6" id="grid6"></div>
+            <div class="nextb" id="nextB">다음 <small>Next</small></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 완성 네 컷 띠 (1:3) -->
+      <div id="strip"></div>
+      <div id="save"><span id="saveT">사진 저장 <small>Save photo</small></span></div>
+
+      <!-- 마무리 카드 -->
+      <div id="card">
+        <img class="c-logo" src="assets/logo-black-hd.png" alt="">
+        <div class="c-ko">해변네컷 찍어보세요!</div>
+        <div class="c-en">Try this beachbooth!</div>
+        <div class="c-loc">인구해변 · 강원 양양</div>
+        <div class="c-handle">@sunframestudio</div>
+        <img class="c-st s1" src="assets/stickers/01-dolphin.png" alt="">
+        <img class="c-st s2" src="assets/stickers/03-starfish-yellow.png" alt="">
+        <img class="c-st s3" src="assets/stickers/09-shell.png" alt="">
+        <img class="c-st s4" src="assets/stickers/12-clownfish.png" alt="">
+      </div>
+
+      <!-- 자막 -->
+      <div id="capband"><div id="caps"></div></div>
+
+      <div id="flash"></div>
+      <div id="fade"></div>
+      <div id="loading">불러오는 중…<small>Loading</small></div>
+      <button id="bigplay" type="button" hidden>재생 <small>Play</small></button>
+    </div>
+  </div>
+
+  <div id="controls">
+    <button id="bPlay" type="button" aria-label="재생/일시정지"><svg viewBox="0 0 24 24"><path id="icoPlay" d="M7 4.5v15l12-7.5z"/><path id="icoPause" d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z" style="display:none"/></svg></button>
+    <button id="bRestart" type="button" aria-label="처음부터"><svg viewBox="0 0 24 24"><path d="M12 5a7 7 0 1 1-6.6 4.7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M4 3.5v6.5h6.5z"/></svg></button>
+    <div id="bar" role="slider" tabindex="0" aria-label="진행 위치" aria-valuemin="0"><div id="trk"><div id="fill"></div></div><div id="thumb"></div></div>
+    <div id="time">0:00 / 0:38</div>
+  </div>
+</div>
+</body>
+</html>

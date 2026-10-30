@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b2440">
+  <title>frame your memory</title>
+  <!-- 완성 사진 하단 글꼴: Jua(한글) + Fredoka(날짜·계정), SIL OFL -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Fredoka:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- 이태원 할로윈 시작 화면(?spot=itaewon): 첫 그림 전에 <html> 에 표시를 달아 바다 사진이 깜빡 보이지 않게 하고, 그때만 글꼴 Eater·Rye(SIL OFL)를 받음 -->
+  <script>
+    (function () {
+      if ((new URLSearchParams(location.search).get('spot') || '').toLowerCase() !== 'itaewon') return;
+      document.documentElement.classList.add('spot-itaewon');
+      var l = document.createElement('link'); l.rel = 'stylesheet';
+      l.href = 'https://fonts.googleapis.com/css2?family=Eater&family=Rye&display=swap';
+      document.head.appendChild(l);
+    })();
+  </script>
+</head>
+<body>
+  <canvas id="sea" aria-hidden="true"></canvas>
+  <!-- 화면들: 한 번에 하나만 .is-active (showScreen으로 전환) -->
+  <section class="screen start is-active" id="screen-start">
+    <!-- 이태원 전용(?spot=itaewon 일 때만 보임): 흡혈귀 입 + 제목 -->
+    <div class="vamp" id="vamp"><h1 class="vamp-title"><span class="t1" id="vamp-t1">TRY FREE</span><span class="t2" id="vamp-t2">PHOTOBOOTH</span></h1></div>
+    <div class="logo-wrap">
+      <div class="logo-shade" aria-hidden="true"></div>
+      <img class="logo" src="assets/logo-white.png" alt="frame your memory">
+    </div>
+    <button id="start-btn" class="start-btn" type="button" aria-label="시작 Start"><span class="lens" aria-hidden="true"></span><span class="btn-label"><span class="ko">시작</span><span class="en" lang="en">Start</span></span></button>
+    <div class="vamp-fence" aria-hidden="true"></div>
+  </section>
+
+  <section class="screen camera" id="screen-camera">
+    <!-- 카메라 미리보기(세로 휴대폰 기준): 어디를 눌러도 준비 완료. 위에서 아래로 안내 / 진행 표시 / 액자 / 로고 / 안내 -->
+    <div id="cam-view" class="cam-view" hidden>
+      <p class="cam-top" id="cam-top"><span class="ko">휴대폰을 거치대에 세로로 놓아 주세요</span><span class="en" lang="en">Place your phone upright on the stand</span></p>
+      <!-- 진행 표시: 촬영 중 '1 / 6' (촬영 순번) -->
+      <p id="shot-count" class="shot-count" hidden><span class="dot" aria-hidden="true"></span><span id="shot-count-txt"></span></p>
+      <!-- 액자: 네 컷 사진 종이 같은 크림색 테두리 안에 4:3 뷰파인더 -->
+      <div class="frame">
+        <div class="viewfinder">
+          <video id="cam-video" playsinline muted autoplay></video>
+          <!-- 카운트다운 큰 숫자 (뷰파인더 위, 글자 크기는 js가 뷰파인더 높이의 70%로 지정) -->
+          <div id="countdown" class="countdown" aria-live="off" hidden></div>
+          <!-- 준비 카운트다운 동안만 보이는 안내 띠 -->
+          <div id="prep-label" class="prep-label" hidden><span class="ko">포즈를 준비하세요!</span><span class="en" lang="en">Get ready to pose!</span></div>
+          <!-- 준비 끝 직후 약 1초 보이는 시작 알림 -->
+          <div id="go-alert" class="go-alert" hidden aria-hidden="true"><div class="pill"><span class="ko">지금부터 촬영합니다!</span><span class="en" lang="en">Here we go!</span></div></div>
+        </div>
+      </div>
+      <img class="cam-logo" src="assets/logo-white.png" alt="">
+      <!-- 촬영 중 로고 자리: 미리보기 6칸 (js가 칸을 만들고 찍힐 때마다 사진으로 채움) -->
+      <div id="shot-thumbs" class="shot-thumbs" hidden aria-hidden="true"></div>
+      <p class="cam-bottom" id="cam-bottom"><span class="ko">준비되면 화면을 눌러 주세요</span><span class="en" lang="en">Tap the screen when ready</span></p>
+      <button id="cam-back" class="cam-back" type="button" aria-label="처음으로 Home">← 처음으로 <span class="en" lang="en">Home</span></button>
+    </div>
+    <!-- 오류 안내 상자 (내용은 js에서 채움) -->
+    <div id="cam-error" class="cam-error" hidden>
+      <div class="card">
+        <h2 id="err-title"></h2>
+        <p id="err-msg"></p>
+        <p id="err-hint" hidden></p>
+        <div class="card-btns" id="err-btns"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 사진 찍는 순간 화면 전체 흰색 플래시 -->
+  <div id="flash" class="flash" aria-hidden="true"></div>
+
+  <!-- 4단계: 6장 중 4장 고르기 (고른 순서가 네 컷 순서) -->
+  <section class="screen select" id="screen-select">
+    <h2 class="sel-title"><span class="ko">마음에 드는 사진 4장을 골라 주세요</span><span class="en" lang="en">Pick your 4 favorite photos</span></h2>
+    <p id="sel-count" class="sel-count" aria-live="polite"></p>
+    <!-- 칸(button.pick)은 js(renderSelect)가 채움 -->
+    <div id="sel-grid" class="sel-grid"></div>
+    <p id="sel-hint" class="sel-hint" aria-live="polite"></p>
+    <div class="sel-btns">
+      <button id="sel-next" type="button" class="next" disabled>다음 <span class="en" lang="en">Next</span></button>
+      <div class="sel-row">
+        <button id="sel-retake" type="button" class="sub">다시 찍기 <span class="en" lang="en">Retake</span></button>
+        <button id="sel-home" type="button" class="sub">처음으로 <span class="en" lang="en">Home</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5단계: 색감 고르기. 위 2x2 사진 미리보기(canvas는 js가 채움) / 아래 색감 버튼 4개 가로 한 줄(thumb canvas는 js가 채움) -->
+  <section class="screen filter" id="screen-filter">
+    <h2 class="sel-title"><span class="ko">색감을 골라 주세요</span><span class="en" lang="en">Choose a color tone</span></h2>
+    <div class="tone-body">
+      <div id="filter-photos" class="strip-photos"></div>
+      <div id="tone-list" class="tone-list">
+        <button type="button" class="tone" data-tone="softlight" aria-pressed="false"><span class="thumb"></span><span class="label"><span class="ko">윤슬</span><span class="en" lang="en">Glimmer</span></span></button>
+        <button type="button" class="tone" data-tone="grainy" aria-pressed="false"><span class="thumb"></span><span class="label"><span class="ko">모래알</span><span class="en" lang="en">Sand</span></span></button>
+        <button type="button" class="tone" data-tone="rio" aria-pressed="false"><span class="thumb"></span><span class="label"><span class="ko">노을</span><span class="en" lang="en">Golden Hour</span></span></button>
+        <button type="button" class="tone" data-tone="graphite" aria-pressed="false"><span class="thumb"></span><span class="label"><span class="ko">밤바다</span><span class="en" lang="en">Night Sea</span></span></button>
+      </div>
+      <p id="tone-hint"><span class="ko">필터는 선택이에요 · 다시 누르면 해제돼요</span><span class="en" lang="en">Filters are optional — tap again to remove</span></p>
+    </div>
+    <div class="sel-btns">
+      <button id="filter-make" type="button" class="next">다음 <span class="en" lang="en">Next</span></button>
+      <button id="filter-back" type="button" class="sub">다시 고르기 <span class="en" lang="en">Back</span></button>
+    </div>
+  </section>
+
+  <!-- 5.5단계: 스티커 붙이기. 왼쪽 무대(완성 사진 1:3 미리보기 + 스티커 DOM) / 오른쪽 스티커 목록. 칸·스티커는 js 가 채움 -->
+  <section class="screen filter" id="screen-sticker">
+    <h2 class="sel-title"><span class="ko">스티커를 붙여 보세요</span><span class="en" lang="en">Add some stickers</span></h2>
+    <div class="stk-body">
+      <div id="sticker-stage" class="stk-stage">
+        <canvas id="sticker-preview" width="600" height="1800" aria-hidden="true"></canvas>
+        <!-- 선택된 스티커의 테두리·✕·크기/회전 손잡이 (스티커 위에 하나만 겹쳐 둠) -->
+        <div id="sticker-sel" class="stk-sel" hidden>
+          <button type="button" class="sel-x" aria-label="스티커 지우기 Remove sticker">✕</button>
+          <div class="sel-h" aria-label="크기·회전 Resize and rotate">↻</div>
+        </div>
+      </div>
+      <div id="sticker-tray" class="stk-tray"></div>
+    </div>
+    <p class="stk-hint" aria-live="polite">
+      <span id="sticker-guide"><span class="ko">누르면 붙고 끌어서 옮겨요 · 모서리로 크기·회전</span><span class="en" lang="en">Tap to add · drag to move · corner to resize &amp; rotate</span></span>
+      <span id="sticker-limit" hidden><span class="ko">스티커는 20개까지 붙일 수 있어요</span><span class="en" lang="en">Up to 20 stickers</span></span>
+    </p>
+    <div class="sel-btns">
+      <button id="sticker-make" type="button" class="next">완성하기 <span class="en" lang="en">Make it</span></button>
+      <button id="sticker-back" type="button" class="sub">뒤로 <span class="en" lang="en">Back</span></button>
+    </div>
+  </section>
+
+  <!-- 6단계: 완성 화면. 만드는 중(#result-wait) -> 합성이 끝나면 완성 사진(#result-done) -->
+  <section class="screen filter" id="screen-result">
+    <div id="result-wait" class="result-wait" aria-live="polite">
+      <p class="wait-text"><span class="ko">만드는 중<span class="dots" aria-hidden="true"><i>.</i><i>.</i><i>.</i></span></span><span class="en" lang="en">Making your photo…</span></p>
+    </div>
+    <div id="result-done" class="result-done" hidden>
+      <h2 class="sel-title"><span class="ko">완성됐어요!</span><span class="en" lang="en">Your photo is ready</span></h2>
+      <canvas id="result-canvas" class="result-canvas" role="img" aria-label="완성된 네 컷 사진 Your finished photo"></canvas>
+      <div class="sel-btns">
+        <button id="result-save" type="button" class="next" disabled>사진 저장 <span class="en" lang="en">Save photo</span></button>
+        <p id="result-note" class="result-note" aria-live="polite"></p>
+        <div class="sel-row">
+          <button id="result-back" type="button" class="sub">뒤로 <span class="en" lang="en">Back</span></button>
+          <button id="result-home" type="button" class="sub">처음으로 <span class="en" lang="en">Home</span></button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div id="ad-overlay" hidden role="dialog" aria-modal="true" aria-label="광고 Ad">
+    <div class="ad-wrap">
+      <div class="ad-top"><button id="ad-back" type="button">← 뒤로 <span lang="en">Back</span></button><span class="ad-tag">광고 · AD</span></div>
+      <div class="ad-card">
+        <div class="ad-media"><img id="ad-img" alt=""><img class="ad-logo" src="assets/logo-white.png" alt=""></div>
+        <div class="ad-text">
+          <h2 id="ad-title"></h2>
+          <p id="ad-body"></p>
+          <a id="ad-cta" class="ad-cta"></a>
+          <small id="ad-note"></small>
+        </div>
+      </div>
+      <div class="ad-count" id="ad-count" aria-live="polite"></div>
+      <div class="ad-track"><div id="ad-bar"></div></div>
+      <button id="ad-save" type="button" disabled>사진 저장하기 <span lang="en">Save photo</span></button>
+    </div>
+  </div>
+  <script src="js/luts.js" defer></script>
+  <script src="js/supabase.js" defer></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>

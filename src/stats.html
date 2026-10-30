@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>현황판 · frame your memory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Fredoka:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/stats.css">
+  <script src="js/supabase.js" defer></script>
+  <script src="js/stats.js" defer></script>
+</head>
+<body class="stats-page">
+  <main class="board">
+    <header class="board-head">
+      <img class="board-logo" src="assets/logo-white.png" alt="frame your memory">
+      <h1>현황판 <small>Dashboard</small></h1>
+    </header>
+    <p id="notice" class="notice" role="status" hidden>불러오지 못했어요 · 다시 시도할게요 <small>Couldn't load · retrying</small></p>
+    <section id="grid" class="grid" aria-live="polite"></section>
+    <footer class="board-foot">
+      <span id="updated">마지막 갱신 –</span>
+      <button id="refresh" type="button">지금 새로고침 <small>Refresh</small></button>
+    </footer>
+  </main>
+</body>
+</html>

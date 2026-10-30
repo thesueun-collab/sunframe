@@ -1,0 +1,72 @@
+/* 현황판: style.css 의 @font-face 만 재사용. body 배경/색/높이는 여기서 덮어씀 (.card 등 앱 클래스는 쓰지 않음) */
+body.stats-page {
+  background: #120d08;
+  color: #f6efe4;
+  font-family: 'NanumHuman', system-ui, sans-serif;
+  height: auto; min-height: 100dvh;
+  overflow-x: hidden; overflow-y: auto;
+}
+html:has(body.stats-page) { height: auto; }
+.board { max-width: 960px; margin: 0 auto; padding: 28px 16px 40px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.board small { font-size: .5em; font-weight: 400; opacity: .7; }
+.board-head { text-align: center; }
+.board-logo { display: block; width: min(60vw, 280px); height: auto; margin: 0 auto 14px; }
+.board-head h1 { margin: 0; font-size: clamp(28px, 6vw, 40px); font-weight: 800; }
+.board-head h1 small { display: block; font-size: .45em; letter-spacing: .08em; margin-top: 2px; }
+.notice { margin: 0; font-size: 14px; color: #ffb38a; text-align: center; }
+.notice[hidden] { display: none; }
+.grid { width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.spot { background: rgba(246, 239, 228, .06); border: 1px solid rgba(246, 239, 228, .15); border-radius: 16px; padding: 20px 18px 22px; min-width: 0; }
+.spot h2 { margin: 0 0 14px; font-family: 'Jua', 'NanumHuman', sans-serif; font-weight: 400; font-size: clamp(28px, 4vw, 34px); line-height: 1.2; word-break: keep-all; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.stat { min-width: 0; text-align: center; }
+.stat .lbl { font-size: 15px; font-weight: 700; }
+.stat .lbl small { margin-left: 4px; }
+.stat .val { margin-top: 4px; color: #fff; }
+.num { display: inline-block; font-family: 'Fredoka', 'NanumHuman', sans-serif; font-weight: 600; font-size: clamp(56px, 12vw, 120px); line-height: 1.05; font-variant-numeric: tabular-nums; }
+.unit { font-size: 16px; margin-left: 2px; opacity: .8; }
+.pop { animation: pop 600ms ease-out; }
+@keyframes pop {
+  0% { transform: scale(1); color: #fff; }
+  40% { transform: scale(1.25); color: #ffd58a; }
+  100% { transform: scale(1); color: #fff; }
+}
+@media (prefers-reduced-motion: reduce) { .pop { animation: none; } }
+.empty { grid-column: 1 / -1; text-align: center; padding: 40px 0; font-size: 20px; }
+.empty small { display: block; margin-top: 4px; }
+.board-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; font-size: 13px; opacity: .85; text-align: center; }
+.board-foot button { font: inherit; color: #f6efe4; background: transparent; border: 1px solid rgba(246, 239, 228, .45); border-radius: 999px; padding: 8px 16px; cursor: pointer; }
+.board-foot button:hover { background: rgba(246, 239, 228, .1); }
+.board-foot button:disabled { opacity: .5; cursor: default; }
+@media (max-width: 420px) { .num { font-size: clamp(48px, 17vw, 72px); } }
+
+/* 이용 흐름 */
+.cap { margin: 8px 0 0; text-align: center; font-size: 12px; opacity: .65; }
+.funnel { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+.frow { display: grid; grid-template-columns: minmax(0, 1fr) 52px 60px 64px; gap: 6px; align-items: center; font-size: 14px; }
+.fhead { font-size: 11px; opacity: .6; text-align: right; }
+.fc { text-align: right; font-family: 'Fredoka', 'NanumHuman', sans-serif; font-weight: 600; font-size: 17px; font-variant-numeric: tabular-nums; }
+.fhead .fc { font: inherit; }
+.fc .n { display: inline-block; }
+.fl { font-weight: 700; min-width: 0; word-break: keep-all; }
+.pc { font-size: 13px; color: #ffd58a; }
+.soon { grid-column: 2 / -1; text-align: right; font-size: 12px; opacity: .6; }
+.bar { height: 6px; margin-top: 5px; border-radius: 3px; background: rgba(246, 239, 228, .12); overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: #ffd58a; border-radius: 3px; transition: width .5s ease; }
+.div { border: 0; border-top: 1px solid rgba(246, 239, 228, .2); margin: 18px 0 4px; }
+.sec { margin: 20px 0 8px; font-size: 15px; font-weight: 700; }
+.hours { display: grid; grid-template-columns: repeat(24, 1fr); gap: 2px; height: 90px; align-items: end; padding-bottom: 18px; }
+.hc { position: relative; height: 100%; display: flex; align-items: flex-end; }
+.hc i { display: block; width: 100%; background: #ffd58a; border-radius: 2px 2px 0 0; height: 2px; opacity: .9; }
+.hl { position: absolute; bottom: -18px; left: 0; font-size: 11px; opacity: .6; }
+.filters { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.filters li { display: flex; align-items: baseline; gap: 8px; }
+.filters li span { flex: 1; }
+.filters li b { font-family: 'Fredoka', sans-serif; font-weight: 600; }
+.filters li small { opacity: .6; }
+.filters .none { opacity: .6; }
+.grid { grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); }
+.board > * { max-width: 100%; min-width: 0; }
+.spot { overflow: hidden; }
+.n.pop { animation: pop 600ms ease-out; }
+@media (max-width: 420px) { .frow { grid-template-columns: minmax(0, 1fr) 44px 52px 54px; font-size: 13px; } .fc { font-size: 15px; } }

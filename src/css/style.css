@@ -1,0 +1,436 @@
+/* 나눔휴먼(네이버 한글 글꼴) — 사용자 지정. 원본 CSS는 ttf 1MB를 먼저 받아 woff(약 0.27MB)만 직접 연결 */
+@font-face { font-family: 'NanumHuman'; font-weight: 400; font-style: normal; font-display: swap;
+  src: url(https://campaign-cdn.pstatic.net/0/hangeul/2022/webfont/NanumHuman/NanumHumanRegular.woff) format('woff'); }
+@font-face { font-family: 'NanumHuman'; font-weight: 700; font-style: normal; font-display: swap;
+  src: url(https://campaign-cdn.pstatic.net/0/hangeul/2022/webfont/NanumHuman/NanumHumanBold.woff) format('woff'); }
+@font-face { font-family: 'NanumHuman'; font-weight: 800; font-style: normal; font-display: swap;
+  src: url(https://campaign-cdn.pstatic.net/0/hangeul/2022/webfont/NanumHuman/NanumHumanEB.woff) format('woff'); }
+
+/* 나눔손글씨 끄트머리체(네이버 클로바, SIL OFL): 이태원 에디션 하단 이름·할로윈 포스터용. 6MB 원본에서 쓰는 글자(이태원할로윈·포스터 문구 + 영문·숫자)만 남긴 작은 파일 */
+@font-face { font-family: 'GgeuTeuMeoRi'; font-weight: 400; font-style: normal; font-display: swap;
+  src: url('../assets/fonts/nanum-ggeuteumeori-sub.woff2') format('woff2'); }
+
+/* frame your memory 스타일 */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow-x: hidden; }
+body {
+  min-height: 100dvh;
+  font-family: 'NanumHuman', system-ui, sans-serif;
+  color: #fff;
+  /* 시작 화면 배경 사진 (로드 전엔 비슷한 어두운 갈색) */
+  background: #1a120a url('../assets/bg-sea.jpg') center 40% / cover no-repeat fixed;
+  -webkit-tap-highlight-color: transparent;
+}
+#sea { position: fixed; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; }
+/* 화면 전환: .is-active인 화면만 보임 */
+.screen { position: relative; z-index: 1; display: none; width: 100%; min-height: 100dvh; }
+.screen.is-active { display: block; }
+.start { text-align: center; }
+/* 세로(휴대폰): 로고는 위(하늘~먼 바다, 화면 7%~35%), 시작 버튼은 아래, 가운데 40~70%(서퍼 자리)는 비움 */
+.start.is-active {
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  height: 100dvh; min-height: 0;
+  padding: calc(18dvh + env(safe-area-inset-top)) 16px env(safe-area-inset-bottom);
+}
+/* 로고 뒤 어두운 원형 그늘: 반경 = 로고 너비의 0.75배 (지름 150%) */
+/* 로고 너비: 68vw / 460px / 높이 30dvh(가로세로비 1079:681 -> 30dvh*1.584) 중 가장 작은 값 */
+.logo-wrap { position: relative; flex: none; width: min(68vw, 460px, calc(30dvh * 1.584)); }
+.logo-shade {
+  position: absolute; left: 50%; top: 50%; width: 150%; aspect-ratio: 1; transform: translate(-50%, -50%);
+  background: radial-gradient(circle closest-side, rgba(10, 6, 2, .55), rgba(10, 6, 2, 0)); pointer-events: none;
+}
+.logo {
+  position: relative; width: 100%; height: auto; display: block;
+  filter: drop-shadow(0 2px 10px rgba(0,0,0,.5)) drop-shadow(0 0 24px rgba(255,236,200,.25));
+}
+.start-btn {
+  /* 서퍼 바로 아래: top 은 JS(placeStartButton)가 --btn-top 으로 지정, 실패 대비 기본 62dvh */
+  position: absolute; left: 50%; top: var(--btn-top, 62dvh); transform: translateX(-50%);
+  width: 168px; max-width: calc(100% - 32px); height: 52px; padding: 0 0 0 .12em;
+  border: 0; border-radius: 999px; overflow: hidden; isolation: isolate;
+  background: rgba(255, 255, 255, .04);
+  color: #fff;
+  font-family: 'NanumHuman', system-ui, sans-serif; font-size: 24px; font-weight: 700; letter-spacing: .12em;
+  cursor: pointer;
+  box-shadow: inset 0 1.5px 1px rgba(255, 255, 255, .7), inset 0 -2px 6px rgba(0, 0, 0, .22), inset 0 0 16px rgba(255, 255, 255, .12),
+    inset 6px 0 10px -6px rgba(255, 255, 255, .35), inset -6px 0 10px -6px rgba(255, 255, 255, .25), inset 0 0 0 1px rgba(0, 0, 0, .12), inset 0 0 22px rgba(0, 0, 0, .18), 0 10px 28px rgba(0, 0, 0, .28);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+/* 렌즈 레이어: 뒤 배경과 같은 사진을 같은 위치에 깔고 살짝 확대 -> 볼록렌즈. size/position 은 JS(placeStartButton)가 px 로 설정 */
+.start-btn .lens {
+  position: absolute; inset: 0; border-radius: inherit; z-index: 0; pointer-events: none;
+  background-image: url('../assets/bg-sea.jpg'); background-repeat: no-repeat;
+  transform: scale(1.12); transform-origin: 50% 50%;
+  filter: saturate(1.12) brightness(.92) contrast(1.02) blur(.6px);
+}
+/* 위쪽 광택 */
+.start-btn::after {
+  content: ""; position: absolute; left: 12%; right: 12%; top: 3px; height: 38%; border-radius: 999px; pointer-events: none; z-index: 2;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .45), rgba(255, 255, 255, 0));
+}
+/* 빛 반사 테두리(1.5px): 안쪽에 그려 overflow 에 잘리지 않음 */
+.start-btn::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none; z-index: 3;
+  background: linear-gradient(160deg, #fff, rgba(255, 255, 255, .35) 28%, rgba(255, 255, 255, .08) 55%, rgba(255, 255, 255, .6) 82%, #fff);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+}
+.start-btn .btn-label {
+  position: relative; z-index: 4; color: #fff;
+  display: inline-flex; align-items: baseline; gap: 7px;
+  font-size: 22px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .55), 0 2px 10px rgba(0, 0, 0, .45), 0 0 22px rgba(0, 0, 0, .25);
+}
+.start-btn .btn-label .ko { font-size: 22px; font-weight: 700; letter-spacing: .12em; margin-right: -.12em; }
+.start-btn .btn-label .en {
+  font-family: 'NanumHuman', system-ui, sans-serif; font-weight: 500; font-size: 13px; letter-spacing: .06em; opacity: .85;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .55), 0 2px 10px rgba(0, 0, 0, .45), 0 0 22px rgba(0, 0, 0, .25);
+}
+.start-btn:active { transform: translateX(-50%) scale(.96); box-shadow: inset 0 1.5px 1px rgba(255, 255, 255, .7), inset 0 -2px 6px rgba(0, 0, 0, .22), inset 0 0 16px rgba(255, 255, 255, .12), 0 5px 14px rgba(0, 0, 0, .3); }
+.start-btn:focus-visible { outline: 3px solid #fff6d8; outline-offset: 4px; }
+
+/* ---- 이태원 할로윈 시작 화면 (?spot=itaewon, <html class="spot-itaewon">): 포스터처럼 빨강 바탕 + 흡혈귀 입 + 울타리 ---- */
+.vamp, .vamp-fence { display: none; }
+html.spot-itaewon body { background: #eb4640; }          /* 바다 사진 배경 대신 포스터 빨강 (사진 내려받기 없음) */
+html.spot-itaewon #sea { display: none; }
+html.spot-itaewon .start.is-active {
+  justify-content: flex-start; padding: 0 0 calc(env(safe-area-inset-bottom) + clamp(52px, 14.4vw, 101px));   /* 아래는 울타리 높이만큼 비움 */
+}
+/* 입: 폭 = 화면 폭(최대 560px), 세로 화면의 절반을 넘지 않게. 이 상자 기준으로 제목 위치를 잡음 */
+html.spot-itaewon .vamp {
+  display: block; position: relative; flex: none; width: min(100%, 560px, calc(50dvh * 1.154)); aspect-ratio: 1080 / 936;
+  background: url('../assets/posters/itaewon-start-mouth.jpg') center top / 100% 100% no-repeat;
+}
+html.spot-itaewon .vamp-title { margin: 0; font-weight: 400; color: #eb4640; }
+html.spot-itaewon .vamp-title span {
+  position: absolute; left: 0; right: 0; width: max-content; margin: 0 auto; text-align: center; white-space: nowrap; line-height: 1; letter-spacing: .03em;
+  font-family: 'Eater', 'Rye', serif; font-size: 11vw;      /* 실제 크기는 js(fitVampTitle)가 맞춤 */
+  text-shadow: 0 0 3px rgba(20, 16, 16, .55);
+}
+html.spot-itaewon .vamp-title .t1 { top: 26%; }
+html.spot-itaewon .vamp-title .t2 { top: 46.5%; font-size: 6vw; }
+/* 로고: 빨강 위라 검정(흰 로고를 검정으로 바꿈), 그늘 없음 */
+html.spot-itaewon .logo-wrap { width: min(40vw, 190px, calc(10.5dvh * 1.584)); margin-top: clamp(14px, 3.5dvh, 32px); }   /* 작게, 입 바로 아래 (버튼이 위로 올라오게) */
+html.spot-itaewon .logo-shade { display: none; }
+html.spot-itaewon .logo { filter: brightness(0); }
+/* 시작 버튼: 검정 알약 + 빨강 틈 + 검정 테두리(포스터 QR 칸 느낌), 크림색 글자 */
+html.spot-itaewon .start-btn {
+  position: relative; left: auto; top: auto; transform: none; flex: none;
+  width: 200px; height: 58px; margin-top: clamp(10px, 2.4dvh, 22px); padding: 0;
+  background: #141010; color: #f3eee6;
+  box-shadow: 0 0 0 3px #eb4640, 0 0 0 5px #141010;
+}
+html.spot-itaewon .start-btn .lens, html.spot-itaewon .start-btn::before, html.spot-itaewon .start-btn::after { display: none; }
+html.spot-itaewon .start-btn .btn-label { color: #f3eee6; text-shadow: none; gap: 10px; align-items: center; letter-spacing: 0; }
+html.spot-itaewon .start-btn .btn-label .ko { font-family: 'GgeuTeuMeoRi', 'NanumHuman', sans-serif; font-weight: 400; font-size: 28px; letter-spacing: .05em; margin: 0; }
+html.spot-itaewon .start-btn .btn-label .en { font-family: 'Rye', serif; font-weight: 400; font-size: 17px; letter-spacing: .04em; opacity: 1; text-shadow: none; }
+html.spot-itaewon .start-btn:active { transform: scale(.96); box-shadow: 0 0 0 3px #eb4640, 0 0 0 5px #141010; }
+html.spot-itaewon .start-btn:focus-visible { outline: 3px solid #f3eee6; outline-offset: 7px; }
+/* 울타리: 화면 맨 아래 가운데 (까마귀·고양이는 양 끝), 안전 영역 아래까지 */
+html.spot-itaewon .vamp-fence {
+  display: block; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); pointer-events: none;
+  width: min(100%, 700px); aspect-ratio: 1080 / 156; margin-bottom: env(safe-area-inset-bottom);
+  background: url('../assets/posters/itaewon-start-fence.png') center bottom / 100% 100% no-repeat;
+}
+
+/* 2단계: 카메라 준비 화면 */
+.camera { background: #120d08; }
+.camera.is-active { display: block; height: 100dvh; overflow: hidden; }
+/* 세로 휴대폰 기준: 위에서 아래로 안내 / 진행 표시 / 액자 / 로고 / 안내를 세로 가운데 정렬 (100dvh 안, 스크롤 없음) */
+.cam-view {
+  position: absolute; inset: 0; cursor: pointer; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(8px, 2dvh, 18px);
+  /* 위: 처음으로 버튼 자리 확보 / 아래: 홈 바 안전 영역 */
+  padding: calc(52px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom));
+}
+.cam-view[hidden], .cam-error[hidden], #err-hint[hidden], .shot-count[hidden], .countdown[hidden], .shot-thumbs[hidden] { display: none; }
+.cam-top, .cam-bottom, .shot-count { margin: 0; text-align: center; color: #fff; word-break: keep-all; }
+.cam-top { color: rgba(255, 255, 255, .85); font-size: clamp(15px, 4.2vw, 16px); }
+.shot-count { font-size: clamp(18px, 5vw, 24px); font-weight: 700; position: absolute; left: 0; right: 0; top: 0; display: flex; align-items: center; justify-content: center; gap: 10px; }
+.shot-count[hidden] { display: none; }
+.shot-count .dot { width: 14px; height: 14px; border-radius: 50%; background: #ff4d3d; box-shadow: 0 0 0 0 rgba(255, 77, 61, .7); animation: rec-pulse 1.2s ease-out infinite; }
+@keyframes rec-pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 77, 61, .7); } 100% { box-shadow: 0 0 0 12px rgba(255, 77, 61, 0); } }
+/* 시작 알림 (뷰파인더 위, 약 1초) */
+.go-alert { position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, .4); pointer-events: none; animation: go-in .25s ease-out; }
+.go-alert[hidden] { display: none; }
+.go-alert .pill { background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .35); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-radius: 22px; padding: 18px 26px; text-align: center; max-width: 94%; white-space: nowrap; color: #f6efe4; }
+.go-alert .ko { display: block; font-size: clamp(20px, 6.4vw, 30px); font-weight: 800; line-height: 1.2; text-shadow: 0 2px 12px rgba(0, 0, 0, .55); }
+#screen-camera .go-alert .en { font-family: 'Fredoka', sans-serif; font-weight: 500; font-size: clamp(14px, 4vw, 19px); margin-top: 4px; opacity: .95; text-shadow: 0 2px 10px rgba(0, 0, 0, .5); }
+@keyframes go-in { from { opacity: 0; } to { opacity: 1; } }
+/* 시작 알림 깜빡임: 나타난 뒤 3번 부드럽게 깜빡이고 켜진 채로 끝남 */
+.go-alert .pill { animation: go-blink .5s ease-in-out .3s 3; }
+@keyframes go-blink { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+/* 액자 너비 = 화면 폭에 거의 꽉(좌우 16px), 단 뷰파인더 높이가 58dvh를 넘지 않게 (58dvh * 4/3) */
+.frame {
+  flex: none; width: min(100vw - 32px, 560px, calc(58dvh * 4 / 3));
+  padding: 12px 12px 28px; /* 아래만 두껍게: 폴라로이드/인생네컷 느낌 */
+  background: var(--strip-bg, #f6efe4); border-radius: 6px; box-shadow: 0 12px 40px rgba(0, 0, 0, .5);
+}
+.viewfinder { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #000; }
+#cam-video {
+  display: block; width: 100%; height: 100%;
+  object-fit: cover; transform: scaleX(-1); /* 거울 방향 */
+}
+.cam-logo { flex: none; width: 38%; max-width: 180px; height: auto; opacity: .85; }
+.cam-bottom {
+  font-size: clamp(18px, 5.5vw, 26px); font-weight: 700;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .7);
+  animation: breathe 2.4s ease-in-out infinite;
+}
+@keyframes breathe { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+.cam-back {
+  position: absolute; z-index: 3; left: max(16px, env(safe-area-inset-left)); top: calc(8px + env(safe-area-inset-top));
+  min-height: 40px; padding: 0 18px; border: 0; border-radius: 999px;
+  background: rgba(255, 250, 240, .92); color: #0b2440; font: inherit; font-size: 1rem; cursor: pointer;
+}
+.cam-error {
+  min-height: 100dvh; max-height: 100dvh; overflow-y: auto; /* 가로에서 넘치면 세로 스크롤 */
+  padding: 24px 16px; display: flex; align-items: center; justify-content: center;
+}
+.card { margin: auto; }
+.card {
+  width: 100%; max-width: 420px; padding: 28px 20px; border-radius: 20px;
+  background: #fffaf0; color: #0b2440; text-align: center; box-shadow: 0 10px 30px rgba(0, 0, 0, .4);
+}
+.card h2 { margin: 0 0 12px; font-size: 1.3rem; }
+.card p { margin: 0 0 12px; line-height: 1.6; word-break: keep-all; }
+#err-hint { font-size: .95rem; color: #35506e; }
+.card-btns { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+.card-btns button {
+  min-height: 48px; padding: 0 20px; border: 0; border-radius: 999px;
+  background: #0b2440; color: #fffaf0; font: inherit; font-size: 1.05rem; cursor: pointer;
+}
+.card-btns button.sub { background: transparent; color: #0b2440; border: 2px solid #0b2440; }
+.cam-back:focus-visible, .card-btns button:focus-visible { outline: 3px solid #fff6d8; outline-offset: 3px; }
+
+/* 영어 함께 표기: 한국어 아래(버튼·'처음으로'는 옆)에 한국어의 약 65% 크기로 */
+#screen-camera .en, #screen-select .en, #screen-filter .en, #screen-sticker .en, #screen-result .en {
+  display: block; font-family: 'NanumHuman', system-ui, sans-serif; font-weight: 400; font-size: .65em; line-height: 1.35; opacity: .75;
+}
+.cam-top .en { margin-top: 2px; }
+.cam-bottom .en { font-weight: 500; text-shadow: 0 2px 10px rgba(0, 0, 0, .7); }
+.cam-back .en, button .en { display: inline; margin-left: .35em; }
+.card h2 .en, .card p .en { margin-top: 2px; }
+.card-btns button { line-height: 1.3; }
+
+/* 3단계: 촬영 중 - 로고 자리에 미리보기 6칸, 안내 깜빡임 끔 */
+.cam-view.shooting .cam-logo { display: none; }
+.cam-view.shooting { cursor: default; }
+.cam-view.shooting .cam-bottom { animation: none; }
+/* 촬영 중엔 위 안내 자리에 진행 표시가 겹쳐 보임 (자리는 그대로 두어 액자가 안 움직임) */
+.cam-view.shooting:has(.shot-count:not([hidden])) .cam-top { visibility: hidden; }
+.shot-thumbs { flex: none; width: min(100vw - 32px, 560px, calc(58dvh * 4 / 3)); display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+.shot-thumbs .th { aspect-ratio: 4 / 3; border: 1.5px dashed rgba(255, 255, 255, .45); border-radius: 3px; overflow: hidden; }
+.shot-thumbs .th.on { border: 0; }
+.shot-thumbs .th img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* 큰 숫자: 크기는 js 가 뷰파인더 높이의 70%로 지정 */
+.countdown {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none;
+  font-family: 'NanumHuman', system-ui, sans-serif; font-weight: 800; line-height: 1; color: #fff;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, .85), 0 2px 6px rgba(0, 0, 0, .9); filter: none;
+}
+.countdown.is-prep {
+  padding-top: 14%; box-sizing: border-box; font-weight: 400; color: rgba(255, 255, 255, .55);
+  text-shadow: none; filter: blur(0.6px);
+}
+.prep-label {
+  position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 2; pointer-events: none;
+  display: flex; flex-direction: column; align-items: center; gap: 2px; max-width: 92%; white-space: nowrap;
+  padding: 6px 16px; border-radius: 999px; background: rgba(0, 0, 0, .45); color: #fff; text-align: center;
+}
+.prep-label[hidden] { display: none; }
+.prep-label .ko { display: block; font-size: clamp(15px, 4.5vw, 20px); font-weight: 700; line-height: 1.25; }
+.prep-label .en { display: block; font-size: 11px; line-height: 1.2; }
+.flash { position: fixed; inset: 0; z-index: 10; background: #fff; opacity: 0; pointer-events: none; }
+
+/* 4단계: 6장 중 4장 고르기 */
+.select, .filter { background: #120d08; }
+.select.is-active, .filter.is-active {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  padding: calc(16px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom));
+}
+.select.is-active, .filter.is-active { height: 100dvh; min-height: 0; }   /* 스크롤 없이 100dvh 안에 */
+.sel-title { margin: 0; text-align: center; font-size: 1.15rem; line-height: 1.3; word-break: keep-all; }
+.sel-count { margin: 0; text-align: center; font-size: 1rem; font-weight: 700; }
+#sel-count .en { display: inline; margin-left: .3em; }
+/* 2열 x 3행. 너비 = min(가로 여백 16px 제외 전체, 460px, 높이 기준) .
+   높이 기준: 제목·버튼 등 위아래 고정 요소 약 300px 를 뺀 높이에 3행(4:3 칸, 간격 8px x 2)이 들어가는 너비 */
+.sel-grid {
+  width: min(100%, 460px, calc((100dvh - 316px) / 1.125 + 8px));
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+}
+.pick {
+  position: relative; display: block; padding: 0; border: 0; border-radius: 4px; overflow: hidden;
+  background: #000; cursor: pointer; transition: opacity .15s ease;
+}
+.pick img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: filter .15s ease; }
+/* 고른 칸: 크림색 3px 테두리(안쪽 box-shadow 라 레이아웃 흔들림 없음, 사진 위에 보이도록 ::after) + 살짝 밝게 */
+.pick[aria-pressed="true"]::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 3px #f6efe4; pointer-events: none;
+}
+.pick[aria-pressed="true"] img { filter: brightness(1.12); }
+.pick .badge {
+  position: absolute; right: 6px; top: 6px; width: 30px; height: 30px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: #f6efe4; color: #1a120a; font-family: 'NanumHuman', system-ui, sans-serif; font-weight: 700; font-size: 16px; line-height: 1;
+  z-index: 1; pointer-events: none;
+}
+.pick .badge[hidden] { display: none; }
+.sel-grid.full .pick[aria-pressed="false"] { opacity: .45; }   /* 4장 다 골랐을 때 */
+.pick:focus-visible { outline: 3px solid #fff6d8; outline-offset: 2px; }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 50% { transform: translateX(6px); } 75% { transform: translateX(-4px); } }
+.pick.shake { animation: shake .3s ease; }
+/* 안내 줄: 자리를 항상 차지해 나타나도 레이아웃이 흔들리지 않음 */
+.sel-hint { margin: 0; min-height: 2.6em; text-align: center; font-size: .95rem; line-height: 1.3; color: #f6efe4; }
+.sel-hint:empty { visibility: hidden; }
+.sel-btns { width: min(100%, 460px); display: flex; flex-direction: column; gap: 8px; }
+.sel-btns button {
+  min-height: 44px; padding: 0 16px; border: 2px solid transparent; border-radius: 999px;
+  background: #f6efe4; color: #1a120a; font: inherit; font-size: 1rem; cursor: pointer;
+}
+.sel-btns button.next { min-height: 54px; font-size: 1.25rem; font-weight: 700; }
+.sel-btns button.next:disabled { opacity: .4; cursor: default; }
+.sel-btns button.sub { background: transparent; color: #f6efe4; border-color: #f6efe4; }
+.sel-row { display: flex; gap: 8px; }
+.sel-row button { flex: 1; }
+.sel-btns button:focus-visible { outline: 3px solid #fff6d8; outline-offset: 3px; }
+
+/* 5단계: 색감 고르기. 위에서 아래로 제목 -> 사진 2x2 -> 색감 버튼 한 줄 -> 아래 버튼 한 줄. 남는 높이는 본문(.tone-body) 안에서 위아래 고르게
+   본문 폭 G = min(100%, 520px, (100dvh - 220px) / 0.9375)
+   높이 합 = 위아래 패딩 32 + 제목 40 + 아래 버튼 44 + 요소 사이 간격 3x10 + 본문 간격 10 + 사진(0.75G + 1.5) + 색감 줄(0.1875G + 27.5)
+           + 필터 안내(#tone-hint 약 28 + 간격 10) ~= 0.9375G + 213 (여유 포함 220) */
+.tone-body { flex: 1 1 auto; min-height: 0; width: min(100%, 520px, calc((100dvh - 220px) / 0.9375)); display: flex; flex-direction: column; justify-content: center; gap: 10px; }
+.strip-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.strip-photos .ph { position: relative; }
+.strip-photos canvas { display: block; width: 100%; aspect-ratio: 4 / 3; border-radius: 4px; background: #120d08; }   /* 화면 배경과 같은 색: 아이폰이 가장자리를 흐릴 때 밝은 줄이 비치지 않게 */
+.strip-photos .num {
+  position: absolute; top: 6px; left: 6px; width: 22px; height: 22px; border-radius: 50%;
+  background: rgba(0, 0, 0, .55); color: #fff; font-size: 12px; line-height: 22px; text-align: center;
+}
+.tone-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.tone {
+  position: relative; display: block; width: 100%; padding: 0 0 4px; border: 0; border-radius: 4px; overflow: hidden;
+  background: #2a2016; color: #fff; font: inherit; text-align: center; cursor: pointer; opacity: 1; transition: opacity .15s ease;
+}
+.tone .thumb { display: block; margin: 2px 2px 0; aspect-ratio: 4 / 3; background: #000; }   /* 100x75 */
+.tone .thumb canvas { display: block; width: 100%; height: 100%; transition: filter .15s ease; }
+.tone .label { display: block; padding-top: 3px; font-size: 12px; line-height: 1.15; white-space: nowrap; letter-spacing: 0; }
+#screen-filter .tone .label .en { font-size: 10px; line-height: 1.15; letter-spacing: 0; }
+#screen-filter .sel-btns { width: min(100%, 520px); flex-direction: row; }
+/* 제목이 위로 치우치지 않게: 제목+사진+색감 버튼을 한 덩어리로 위아래 가운데, 아래 버튼만 맨 아래 (사용자 요청) */
+#screen-filter .tone-body { flex: 0 0 auto; }
+#screen-filter > .sel-title { margin-top: auto; }
+#screen-filter > .sel-btns { margin-top: auto; }
+#screen-sticker .sel-btns { width: min(100%, 520px); flex-direction: row; }
+#screen-filter .sel-btns button { min-height: 44px; font-size: 15px; font-weight: 700; white-space: nowrap; padding: 0 8px; }
+#screen-sticker .sel-btns button { min-height: 44px; font-size: 15px; font-weight: 700; white-space: nowrap; padding: 0 8px; }
+#screen-filter .sel-btns button .en { display: inline; font-size: 11px; margin-left: 0; }
+#screen-sticker .sel-btns button .en { display: inline; font-size: 11px; margin-left: 0; }
+#screen-filter .sel-btns button .en::before { content: "· "; }
+#screen-sticker .sel-btns button .en::before { content: "· "; }
+#screen-filter .sel-btns .next { flex: 2; }
+#screen-sticker .sel-btns .next { flex: 2; }
+#screen-filter .sel-btns .sub { flex: 1; font-weight: 500; }
+#screen-sticker .sel-btns .sub { flex: 1; font-weight: 500; }
+/* 고른 색감: 크림색 3px 안쪽 테두리 + 살짝 밝게 (고르기 화면 .pick 과 같은 방식) */
+#tone-list.has-pick .tone[aria-pressed="false"] { opacity: .75; }
+.tone[aria-pressed="true"] { opacity: 1; }
+.tone[aria-pressed="true"]::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 3px #f6efe4; pointer-events: none; }
+.tone[aria-pressed="true"] .thumb canvas { filter: brightness(1.12); }
+#tone-hint { margin: 0; text-align: center; color: rgba(255, 255, 255, .7); line-height: 1.25; }
+#tone-hint .ko { display: block; font-size: 12px; }
+#tone-hint .en { display: block; font-size: 10px; line-height: 1.25; opacity: 1; margin: 0; }
+.tone:disabled { cursor: default; }
+.tone:focus-visible { outline: 3px solid #fff6d8; outline-offset: 2px; }
+.sel-btns button:disabled { cursor: default; }
+
+/* 5.5단계: 스티커 붙이기. 제목 / 본문(무대 + 목록 가로 두 칸) / 안내 / 버튼 한 줄
+   본문은 남는 세로 공간 전부(flex 1). 무대 높이 = 본문 높이, 폭 = 높이 / 3 (완성 사진 1:3)
+   375x667: 위아래 패딩 32 + 제목 40 + 안내 26 + 버튼 44 + 간격 3x10 = 172 -> 본문 높이 약 495, 무대 폭 약 165, 목록 폭 약 168 */
+#screen-sticker.is-active { justify-content: flex-start; }
+.stk-body { flex: 1 1 0; min-height: 0; width: min(100%, 520px); display: flex; gap: 10px; }
+.stk-stage { position: relative; flex: none; height: 100%; aspect-ratio: 1 / 3; touch-action: none; user-select: none; -webkit-user-select: none; background: var(--strip-bg, #f6efe4); box-shadow: 0 8px 28px rgba(0, 0, 0, .5); }
+.stk-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+/* 스티커: 위치·크기·각도는 js 가 style 로 지정(left/top 0 + transform). 사진 밖으로 나간 부분은 무대에서 잘림 */
+.stk-clip { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.stk { position: absolute; left: 0; top: 0; pointer-events: auto; cursor: grab; touch-action: none; }
+.stk img { display: block; width: 100%; height: 100%; pointer-events: none; -webkit-user-drag: none; }
+.stk::before { content: ""; position: absolute; left: 50%; top: 50%; width: max(100%, 32px); height: max(100%, 32px); transform: translate(-50%, -50%); }   /* 작아도 터치 영역 32px */
+.stk-sel { z-index: 10000; position: absolute; left: 0; top: 0; pointer-events: none; outline: 1.5px dashed #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, .35); }
+.stk-sel[hidden] { display: none; }
+.sel-x, .sel-h {
+  position: absolute; width: 32px; height: 32px; padding: 0; border: 0; background: none; isolation: isolate; pointer-events: auto; touch-action: none;
+  display: flex; align-items: center; justify-content: center; color: #1a120a; font: inherit; font-size: 14px; line-height: 1; cursor: pointer;
+}
+.sel-x::before, .sel-h::before { content: ""; position: absolute; z-index: -1; width: 26px; height: 26px; border-radius: 50%; background: #f6efe4; box-shadow: 0 1px 4px rgba(0, 0, 0, .5); }
+.sel-x { left: -16px; top: -16px; }
+.sel-h { right: -16px; bottom: -16px; font-size: 16px; cursor: nwse-resize; }
+.stk-tray { flex: 1 1 0; min-width: 0; height: 100%; overflow-y: auto; overscroll-behavior: contain; display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: max-content; gap: 6px; align-content: start; }
+.tray-btn { display: flex; flex-direction: column; align-items: center; aspect-ratio: 1 / 1; min-width: 0; padding: 4px 2px 3px; border: 0; border-radius: 6px; background: #2a2016; color: #fff; font: inherit; cursor: pointer; }
+.tray-btn img { flex: 1 1 0; min-height: 0; max-width: 100%; object-fit: contain; pointer-events: none; }
+.tray-btn .nm { flex: none; max-width: 100%; margin-top: 2px; font-size: 10px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tray-btn:active { background: #3a2d20; }
+.tray-btn:focus-visible { outline: 3px solid #fff6d8; outline-offset: 2px; }
+.stk-hint { margin: 0; width: min(100%, 520px); text-align: center; color: rgba(255, 255, 255, .75); line-height: 1.25; }
+.stk-hint .ko { display: block; font-size: 11px; }
+#screen-sticker .stk-hint .en { font-size: 9px; line-height: 1.25; opacity: 1; }
+.stk-hint [hidden] { display: none; }
+#sticker-limit { color: #fff6d8; }
+
+/* 6단계: 완성 화면. 제목 + 이미지 + 버튼이 100dvh 안에 (375x667 에서도 스크롤 없음)
+   이미지 높이 = min(64dvh, 폭 기준) : 위아래 고정 요소(제목·큰 버튼·안내·작은 버튼·여백) 약 250px 를 뺀 값도 넘지 않게 */
+.result-done { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.result-done[hidden], .result-wait[hidden] { display: none; }
+.result-canvas {
+  display: block; margin: 0 auto; max-width: 100%; border-radius: 4px; box-shadow: 0 12px 40px rgba(0, 0, 0, .5); background: var(--strip-bg, #f6efe4);
+}
+.result-note { margin: 0; min-height: 2.6em; text-align: center; font-size: .9rem; line-height: 1.3; color: #f6efe4; }
+.result-note:empty { visibility: hidden; }
+.result-wait { text-align: center; font-size: 1.5rem; font-weight: 700; }
+.wait-text { margin: 0; }
+.wait-text .en { font-size: .55em; }
+.dots i { font-style: normal; animation: dotblink 1.2s infinite both; }
+.dots i:nth-child(2) { animation-delay: .2s; }
+.dots i:nth-child(3) { animation-delay: .4s; }
+@keyframes dotblink { 0%, 80%, 100% { opacity: .15; } 30% { opacity: 1; } }
+
+/* 가로(노트북): 같은 원칙 - 로고 위, 버튼 아래, 가운데 비움. 로고 높이 40dvh 이하 */
+@media (orientation: landscape) {
+  .start.is-active {
+    padding: calc(11dvh + env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(16px, env(safe-area-inset-left));
+  }
+  .logo-wrap { width: min(60vw, 520px, calc(38dvh * 1.584)); }
+  .start-btn { height: clamp(44px, 10dvh, 52px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cam-bottom { animation: none; }
+  .shot-count .dot, .go-alert, .go-alert .pill { animation: none; }
+  .dots i { animation: none; opacity: 1; }
+}
+
+/* 광고 게이트 */
+#ad-overlay { position: fixed; inset: 0; z-index: 1000; background: #1f1812; color: #f6efe4; overflow-y: auto; overflow-x: hidden;
+  display: flex; justify-content: center; font-family: 'NanumHuman', system-ui, sans-serif; }
+#ad-overlay[hidden] { display: none; }
+.ad-wrap { width: 100%; max-width: 440px; padding: 14px 16px 20px; display: flex; flex-direction: column; gap: 12px; margin: auto; }
+.ad-top { display: flex; justify-content: space-between; align-items: center; }
+.ad-tag { font-size: 12px; letter-spacing: .12em; opacity: .7; border: 1px solid rgba(246,239,228,.4); border-radius: 99px; padding: 3px 10px; }
+#ad-back { background: none; border: 0; color: #f6efe4; font: inherit; font-size: 14px; opacity: .8; padding: 6px 0; cursor: pointer; }
+#ad-back span, #ad-save span { font-family: 'Fredoka', sans-serif; font-weight: 500; font-size: .85em; opacity: .8; margin-left: 4px; }
+.ad-card { background: #2a2018; border-radius: 18px; overflow: hidden; }
+.ad-media { position: relative; aspect-ratio: 16 / 10; background: #120d08; }
+.ad-media img:first-child { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ad-logo { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 38%; max-width: 150px; height: auto; }
+.ad-text { padding: 16px 18px 14px; text-align: center; display: flex; flex-direction: column; gap: 6px; }
+.ad-text h2 { margin: 0; font-size: 20px; font-weight: 800; }
+.ad-text p { margin: 0; font-size: 14px; opacity: .85; }
+.ad-text .en { display: block; font-family: 'Fredoka', sans-serif; font-size: .85em; opacity: .75; margin-top: 2px; }
+.ad-cta { align-self: center; margin-top: 8px; background: #e98a6b; color: #1f1812; text-decoration: none; font-weight: 800; border-radius: 99px; padding: 10px 20px; font-size: 15px; }
+.ad-cta .en { margin: 0; opacity: .8; }
+.ad-text small { margin-top: 8px; font-size: 11px; opacity: .55; }
+.ad-count { text-align: center; font-size: 15px; font-weight: 700; }
+.ad-count .en { display: block; font-family: 'Fredoka', sans-serif; font-weight: 500; font-size: .85em; opacity: .75; }
+.ad-track { height: 6px; border-radius: 99px; background: rgba(246,239,228,.18); overflow: hidden; }
+#ad-bar { height: 100%; width: 0; background: #e98a6b; transition: width .1s linear; }
+#ad-save { border: 0; border-radius: 99px; padding: 16px; font: inherit; font-size: 18px; font-weight: 800; background: #e98a6b; color: #1f1812; cursor: pointer; }
+#ad-save:disabled { background: rgba(246,239,228,.15); color: rgba(246,239,228,.45); cursor: not-allowed; }

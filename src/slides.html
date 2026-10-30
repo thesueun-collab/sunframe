@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>frame your memory 발표</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&display=swap">
+<style>
+html,body{margin:0;height:100%;background:#120d08;overflow:hidden;overscroll-behavior:none}
+#vp{position:fixed;inset:0;overflow:hidden;touch-action:pan-y pinch-zoom;user-select:none;-webkit-user-select:none}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.slide{position:absolute!important;left:0;top:0;width:1920px;height:1080px!important;overflow:hidden;box-sizing:border-box}
+.slide:not(.on){display:none!important}
+.slide.on{animation:fade .35s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.slide *{box-sizing:border-box}
+.slide h1,.slide h2,.slide h3,.slide p{margin:0}
+.slide img{display:block}
+.slide>:not([style*="position:absolute"]){position:relative;z-index:1}
+#ctr{position:fixed;right:12px;bottom:10px;color:#f6efe4;background:rgba(18,13,8,.6);font:600 14px/1 'Noto Sans KR',sans-serif;padding:6px 10px;border-radius:999px;pointer-events:none;z-index:5}
+.slide a{position:relative;z-index:3;color:inherit}
+</style></head><body>
+<div id="vp"><div id="stage">
+<section id="cover" class="slide" style="background:#1f1812;color:#f6efe4;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:36px">
+<img src="slides/sea-s.jpg" alt="노을 지는 인구해변 바다" style="position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover">
+<div style="position:absolute;left:0;top:0;width:1920px;height:1080px;background:linear-gradient(180deg, rgba(20,14,8,0.15) 0%, rgba(20,14,8,0.6) 100%)"></div>
+<img src="slides/logo-white.png" alt="frame your memory 로고" style="width:620px;height:391px;object-fit:contain">
+<p style="font-size:32px;color:#eadfcf;text-align:center">이수은 · AI 내일바꿈 3기</p>
+
+</section>
+<section id="booth" class="slide" style="background:#f6efe4;color:#1f1812;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:64px">
+<div style="display:flex;flex-direction:row;gap:24px;align-items:center">
+<img src="slides/b19.png" alt="세탁기와 비행기 좌석 컨셉의 포토부스 사진" style="width:779px;height:380px;object-fit:cover;border-radius:16px;box-shadow:0 14px 32px rgba(31,24,18,0.2)">
+<img src="slides/b20.png" alt="수족관 컨셉 프레임의 여섯 컷 사진" style="width:612px;height:380px;object-fit:cover;border-radius:16px;box-shadow:0 14px 32px rgba(31,24,18,0.2)">
+<img src="slides/b21.png" alt="아이돌 콜라보 프레임 네 컷 사진" style="width:224px;height:380px;object-fit:cover;border-radius:16px;box-shadow:0 14px 32px rgba(31,24,18,0.2)">
+</div>
+<div style="display:flex;flex-direction:column;gap:24px">
+<p style="font-family:'Fredoka', Arial, sans-serif;font-size:28px;font-weight:600;letter-spacing:2px;color:#b0532f">01 · 발견</p>
+<h2 style="font-family:'Jua', 'Noto Sans KR', sans-serif;font-weight:400;font-size:88px;line-height:1.15;color:#1f1812">요즘, 하루의 마무리는 네 컷 사진</h2>
+<p style="font-size:36px;line-height:1.5;color:#5a4d42">부스마다 다른 컨셉, 캐릭터·연예인 콜라보 프레임까지</p>
+</div>
+
+</section>
+<section id="question" class="slide" style="background:#e98a6b;color:#1f1812;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:48px">
+<p style="font-family:'Fredoka', Arial, sans-serif;font-size:32px;font-weight:600;letter-spacing:2px;color:#1f1812">양양에 놀러 와서 사진을 찍는데,</p>
+<h1 style="font-family:'Jua', 'Noto Sans KR', sans-serif;font-weight:400;font-size:120px;line-height:1.2;color:#1f1812">굳이 프레임이<br>필요할까요?</h1>
+
+</section>
+<section id="nature" class="slide" style="background:#1f1812;color:#f6efe4;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:row;align-items:center">
+<div style="width:600px;display:flex;flex-direction:column;gap:32px">
+<p style="font-family:'Fredoka', Arial, sans-serif;font-size:28px;font-weight:600;letter-spacing:2px;color:#f2a98c">02 · 아이디어</p>
+<h2 style="font-family:'Jua', 'Noto Sans KR', sans-serif;font-weight:400;font-size:88px;line-height:1.15;color:#f6efe4">자연 그 자체가<br>최고의 프레임</h2>
+</div>
+<div style="flex:1"></div>
+<div style="width:480px;display:flex;flex-direction:column;gap:20px;align-items:end">
+<p style="font-family:'Jua', 'Noto Sans KR', sans-serif;font-size:72px;color:#f6efe4;text-align:right">이렇게요.</p>
+<p style="font-size:28px;line-height:1.5;color:#b8ab99;text-align:right">2026.10.05 인구해변에서<br>직접 찍은 해변네컷</p>
+</div>
+<img src="slides/mystrip.jpg" alt="인구해변에서 직접 찍은 해변네컷 사진" style="position:absolute;left:793px;top:24px;width:344px;height:1032px;object-fit:cover;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,0.55)">
+
+</section>
+<section id="qr" class="slide" style="background:#efe5d6;color:#1f1812;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;align-items:center">
+<img src="slides/poster.png" alt="인구해변 QR 포스터" style="position:absolute;left:595px;top:24px;width:730px;height:1032px;object-fit:contain;border-radius:8px;box-shadow:0 18px 48px rgba(31,24,18,0.25)">
+
+</section>
+<section id="video" class="slide" style="background:#1f1812;color:#f6efe4;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<h2 style="font-family:'Jua', 'Noto Sans KR', sans-serif;font-weight:400;font-size:80px;line-height:1.15;color:#f6efe4">이렇게 찍어요</h2>
+<img src="slides/scene-scan.png" alt="인구해변에서 QR을 스캔하는 애니메이션 장면" style="width:1664px;height:560px;object-fit:cover;border-radius:24px">
+<div style="display:flex;flex-direction:row;gap:20px;align-items:center">
+<span style="color:#f2a98c;font-size:44px;line-height:1;display:inline-block">▶</span>
+<p style="font-family:'Fredoka', Arial, sans-serif;font-size:36px;font-weight:500;color:#f2a98c"><a target="_blank" rel="noopener" href="https://naeilbakkum-hello.vercel.app/demo">naeilbakkum-hello.vercel.app/demo</a></p>
+</div>
+
+</section>
+<section id="shoot" class="slide" style="background:#f6efe4;color:#1f1812;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:56px">
+<h2 style="font-family:'Jua', 'Noto Sans KR', sans-serif;font-weight:400;font-size:80px;line-height:1.15;color:#1f1812">거치대에 두고, 멀리서 전신까지</h2>
+<div style="display:flex;flex-direction:row;gap:56px;align-items:center">
+<img src="slides/scene-count.png" alt="카운트다운에 맞춰 포즈를 취하는 장면" style="width:1040px;height:454px;object-fit:cover;border-radius:20px">
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:row;gap:28px;align-items:center;background:#fbf7f0;padding:24px 32px;border-radius:20px;border:1px solid #e3d8c6"><h3 style="font-family:'Jua', 'Noto Sans KR', sans-serif;font-weight:400;font-size:64px;color:#b0532f;min-width:max-content">10초</h3><p style="font-size:28px;line-height:1.4;color:#5a4d42">포즈 준비 시간</p></div>
+<div style="display:flex;flex-direction:row;gap:28px;align-items:center;background:#fbf7f0;padding:24px 32px;border-radius:20px;border:1px solid #e3d8c6"><h3 style="font-family:'Jua', 'Noto Sans KR', sans-serif;font-weight:400;font-size:64px;color:#b0532f;min-width:max-content">5초</h3><p style="font-size:28px;line-height:1.4;color:#5a4d42">카운트다운마다 한 장</p></div>
+<div style="display:flex;flex-direction:row;gap:28px;align-items:center;background:#fbf7f0;padding:24px 32px;border-radius:20px;border:1px solid #e3d8c6"><h3 style="font-family:'Jua', 'Noto Sans KR', sans-serif;font-weight:400;font-size:64px;color:#b0532f;min-width:max-content">6장</h3><p style="font-size:28px;line-height:1.4;color:#5a4d42">자동으로 연속 촬영</p></div>
+</div>
+</div>
+
+</section>
+<section id="decorate" class="slide" style="background:#efe5d6;color:#1f1812;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<h2 style="font-family:'Jua', 'Noto Sans KR', sans-serif;font-weight:400;font-size:80px;line-height:1.15;color:#1f1812">고르고, 입히고, 붙이고</h2>
+<div style="display:flex;flex-direction:row;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="slides/ph23.6.png" alt="6장 중 4장을 고르는 화면" style="width:282px;height:560px;object-fit:contain"><h3 style="font-family:'Jua', 'Noto Sans KR', sans-serif;font-weight:400;font-size:44px;color:#1f1812;text-align:center">4장 고르기</h3><p style="font-family:'Noto Sans KR', Arial, sans-serif;font-size:26px;color:#5a4d42;text-align:center">6장 중 마음에 드는 4장</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="slides/ph26.2.png" alt="필터 4종을 고르는 화면" style="width:282px;height:560px;object-fit:contain"><h3 style="font-family:'Jua', 'Noto Sans KR', sans-serif;font-weight:400;font-size:44px;color:#1f1812;text-align:center">필터 4종</h3><p style="font-family:'Noto Sans KR', Arial, sans-serif;font-size:26px;color:#5a4d42;text-align:center">윤슬 · 모래알 · 노을 · 밤바다</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="slides/ph27.6.png" alt="바다 스티커를 붙이는 화면" style="width:282px;height:560px;object-fit:contain"><h3 style="font-family:'Jua', 'Noto Sans KR', sans-serif;font-weight:400;font-size:44px;color:#1f1812;text-align:center">바다 스티커</h3><p style="font-family:'Noto Sans KR', Arial, sans-serif;font-size:26px;color:#5a4d42;text-align:center">크기·방향 자유롭게</p></div>
+</div>
+
+</section>
+<section id="save" class="slide" style="background:#f6efe4;color:#1f1812;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:row;gap:96px;align-items:center">
+<div style="flex:1;display:flex;flex-direction:column;gap:40px">
+<p style="font-family:'Fredoka', Arial, sans-serif;font-size:28px;font-weight:600;letter-spacing:2px;color:#b0532f">완성</p>
+<h2 style="font-family:'Jua', 'Noto Sans KR', sans-serif;font-weight:400;font-size:88px;line-height:1.15;color:#1f1812">장소와 날짜까지<br>담아서 저장</h2>
+<p style="font-size:36px;line-height:1.6;color:#5a4d42">왼쪽엔 QR이 놓인 명소 이름,<br>오른쪽엔 찍은 날짜가 자동으로.<br>저장 버튼 하나면 내 휴대폰에.</p>
+</div>
+<img src="slides/mystrip.jpg" alt="해변네컷 아래쪽: 인구해변, 로고, 날짜" style="object-position:50% 100%;width:720px;height:640px;object-fit:cover;border-radius:16px;box-shadow:0 18px 40px rgba(31,24,18,0.22)">
+
+</section>
+<section id="stats" class="slide" style="background:#1f1812;color:#f6efe4;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:56px">
+<h2 style="font-family:'Jua', 'Noto Sans KR', sans-serif;font-weight:400;font-size:80px;line-height:1.15;color:#f6efe4">지금까지 몇 번 찍혔을까요?</h2>
+<div style="display:flex;flex-direction:row;gap:64px;align-items:center">
+<img src="slides/stats.png" alt="명소별 촬영 횟수 현황판 화면" style="width:960px;height:600px;object-fit:cover;border-radius:20px;border:2px solid #3a2e24">
+<div style="flex:1;display:flex;flex-direction:column;gap:32px">
+<p style="font-size:36px;line-height:1.5;color:#f6efe4">명소별 오늘·전체 촬영 수</p>
+<p style="font-size:30px;line-height:1.5;color:#d9cdbb">30초마다 자동 새로고침</p>
+<p style="font-size:30px;line-height:1.5;color:#d9cdbb">사진은 저장하지 않고<br>횟수만 기록해요</p>
+<p style="font-family:'Fredoka', Arial, sans-serif;font-size:30px;font-weight:500;color:#f2a98c"><a target="_blank" rel="noopener" href="https://naeilbakkum-hello.vercel.app/stats">…vercel.app/stats</a></p>
+</div>
+</div>
+
+</section>
+<section id="closing" class="slide" style="background:#1f1812;color:#f6efe4;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:48px">
+<img src="slides/sea-s.jpg" alt="" style="position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover">
+<div style="position:absolute;left:0;top:0;width:1920px;height:1080px;background:rgba(20,14,8,0.62)"></div>
+<h1 style="font-family:'Jua', 'Noto Sans KR', sans-serif;font-weight:400;font-size:96px;line-height:1.25;color:#f6efe4;text-align:center">내가 있는 그 장소가<br>하나의 포토부스로</h1>
+<p style="font-size:36px;line-height:1.5;color:#eadfcf;text-align:center">사진관도, 전용 카메라도 필요 없이</p>
+<img src="slides/logo-white.png" alt="frame your memory 로고" style="width:300px;height:189px;object-fit:contain">
+
+</section>
+</div></div>
+<div id="ctr"></div>
+<script>
+(function(){
+var slides=[].slice.call(document.querySelectorAll('.slide')),n=slides.length,cur=0;
+var vp=document.getElementById('vp'),st=document.getElementById('stage'),ctr=document.getElementById('ctr');
+function fit(){var w=innerWidth,h=innerHeight,s=Math.min(w/1920,h/1080);
+st.style.transform='translate('+((w-1920*s)/2)+'px,'+((h-1080*s)/2)+'px) scale('+s+')';}
+function show(i,push){i=Math.max(0,Math.min(n-1,i));slides.forEach(function(s,k){s.classList.toggle('on',k===i)});cur=i;
+ctr.textContent=(i+1)+' / '+n;if(push!==false&&location.hash!=='#'+(i+1))history.replaceState(null,'','#'+(i+1));}
+function fromHash(){var k=parseInt(location.hash.slice(1),10);show(isNaN(k)?0:k-1,false);}
+function next(){show(cur+1)}function prev(){show(cur-1)}
+addEventListener('resize',fit);addEventListener('hashchange',fromHash);
+addEventListener('keydown',function(e){var k=e.key;
+if(k==='ArrowRight'||k===' '||k==='PageDown'){e.preventDefault();next()}
+else if(k==='ArrowLeft'||k==='PageUp'){e.preventDefault();prev()}
+else if(k==='f'||k==='F'){var d=document;if(d.fullscreenElement)d.exitFullscreen();else document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}
+else if(k==='Home')show(0);else if(k==='End')show(n-1);});
+var tx=0,ty=0,tt=0,moved=false;
+vp.addEventListener('touchstart',function(e){var t=e.changedTouches[0];tx=t.clientX;ty=t.clientY;tt=Date.now()},{passive:true});
+vp.addEventListener('touchend',function(e){var t=e.changedTouches[0],dx=t.clientX-tx,dy=t.clientY-ty;
+if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.5){moved=true;dx<0?next():prev();setTimeout(function(){moved=false},400);}},{passive:true});
+vp.addEventListener('click',function(e){if(moved||e.target.closest('a'))return;(e.clientX>innerWidth/2)?next():prev();});
+fit();fromHash();
+})();
+</script></body></html>
