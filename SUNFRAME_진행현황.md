@@ -23,3 +23,7 @@
 
 ## 확인 못 한 것
 - `.claude/` 안의 메모·할 일 목록, HANDOFF.md 의 다음 단계 → 작업 PC 원본 확인 필요
+
+## 2026-10-30 작업
+- `?spot=itaewon` 프레임 이름: Supabase `spots` 의 itaewon 줄을 `홍대 Hongdae` / `서울 마포구` 로 변경 (주소·QR·통계 코드는 itaewon 그대로)
+- 끄트머리체 서브셋(`assets/fonts/nanum-ggeuteumeori-sub.woff2`)에 '홍', '대' 추가 → Production 배포 dpl_2u2jSUixr
