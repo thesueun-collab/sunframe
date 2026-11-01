@@ -442,5 +442,5 @@ html.spot-ended body > *:not(.ended) { display: none !important; }
   min-height: 100vh; min-height: 100dvh; padding: 0 24px; box-sizing: border-box; text-align: center; color: #f6efe4; }
 .ended h1 { margin: 0; font: 400 clamp(30px, 9vw, 56px)/1.15 'Rye', Georgia, serif; }
 .ended p { margin: 0; font: 500 clamp(17px, 4.6vw, 24px)/1.4 'Fredoka', system-ui, sans-serif; opacity: .85; }
-.ended a { margin-top: 14px; font: 600 clamp(17px, 4.6vw, 22px)/1 'Fredoka', system-ui, sans-serif; color: #f6efe4; text-decoration: none;
-  padding: 12px 22px; border: 1.5px solid rgba(246, 239, 228, .6); border-radius: 999px; }
+.ended a { margin-top: -8px; font: 600 clamp(13px, 3.6vw, 16px)/1 'Fredoka', system-ui, sans-serif; color: #f6efe4; text-decoration: none;
+  padding: 7px 14px; border: 1px solid rgba(246, 239, 228, .6); border-radius: 999px; }
