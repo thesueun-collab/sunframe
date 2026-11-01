@@ -434,3 +434,11 @@ html.spot-itaewon .vamp-fence {
 #ad-bar { height: 100%; width: 0; background: #e98a6b; transition: width .1s linear; }
 #ad-save { border: 0; border-radius: 99px; padding: 16px; font: inherit; font-size: 18px; font-weight: 800; background: #e98a6b; color: #1f1812; cursor: pointer; }
 #ad-save:disabled { background: rgba(246,239,228,.15); color: rgba(246,239,228,.45); cursor: not-allowed; }
+
+/* 할로윈 에디션 종료 화면(?spot=itaewon, index.html 머리에서 시각 확인): 다른 화면은 모두 숨기고 문구만 가운데 */
+html.spot-ended, html.spot-ended body { background: #000; }
+html.spot-ended body { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+  min-height: 100vh; min-height: 100dvh; margin: 0; padding: 0 24px; box-sizing: border-box; text-align: center; color: #f6efe4; }
+html.spot-ended body > * { display: none !important; }
+html.spot-ended body::before { content: "That\2019s a wrap on Halloween!"; font: 400 clamp(30px, 9vw, 56px)/1.15 'Rye', Georgia, serif; }
+html.spot-ended body::after { content: "Stay tuned for our next location."; font: 500 clamp(17px, 4.6vw, 24px)/1.4 'Fredoka', system-ui, sans-serif; opacity: .85; }

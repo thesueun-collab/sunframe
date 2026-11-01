@@ -15,6 +15,8 @@
     (function () {
       if ((new URLSearchParams(location.search).get('spot') || '').toLowerCase() !== 'itaewon') return;
       document.documentElement.classList.add('spot-itaewon');
+      // 할로윈 에디션 종료(2026-11-02 00:00 한국 시간) 이후: 까만 화면에 종료 문구만, 촬영 버튼 없음 (style.css html.spot-ended)
+      if (Date.now() >= Date.parse('2026-11-02T00:00:00+09:00')) document.documentElement.classList.add('spot-ended');
       var l = document.createElement('link'); l.rel = 'stylesheet';
       l.href = 'https://fonts.googleapis.com/css2?family=Eater&family=Rye&display=swap';
       document.head.appendChild(l);
