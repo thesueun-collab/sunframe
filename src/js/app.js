@@ -1169,7 +1169,7 @@ loadLogo().catch(() => {});                    // 미리 불러 두기
 // 명소별 하단 왼쪽 로고(행사 CI 등): 있으면 명소 이름 글자 대신 이 그림을 그림. 없거나 불러오기 실패하면 이름 글자로
 const SPOT_LOGOS = { gncoffee: 'assets/spots/gncoffee.png', surfpik: 'assets/spots/surfpik.png' };
 const SPOT_LOGO_WITH_NAME = { surfpik: { h: 150, font: ['400', 28, 'Jua'], gap: 18, onHandle: true, up: 16 } };   // 명소 로고와 이름 글자를 같이 (로고 높이·글꼴·간격, above = 이름을 로고 위에, onHandle = 이름을 가운데 계정 글씨 줄 높이에 두고 로고는 그 위로, up = 거기서 위로 올리는 정도(px), 없으면 로고만)
-const SPOT_DATE_DOWN = { surfpik: 25 };          // 명소별 오른쪽 날짜를 아래로 내리는 정도(px, 없으면 0)
+const SPOT_DATE_DOWN = { surfpik: 20 };          // 명소별 오른쪽 날짜를 아래로 내리는 정도(px, 없으면 0)
 const SPOT_FOOT_LOGO_W = { cafepokpo: 200 };    // 명소별 가운데 우리 로고 폭(없으면 LOGO_W), 계정 글씨는 24px
 const FOOT_SPOT_LOGO_MAXH = 0.7;               // 하단 칸 높이 대비 최대 높이
 let spotLogoPromise = null;
