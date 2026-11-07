@@ -1,7 +1,7 @@
 // frame your memory 앱 - 1단계 시작 화면 + 2단계 카메라 준비 화면
 
 // 임시 명소 표 (7단계에서 Supabase 조회로 교체 예정)
-const SPOTS = { ingu: '인구해변' };
+const SPOTS = { ingu: '인구해변', surfpik: '동산해변' };
 
 // 화면 전환: id 화면만 .is-active, 나머지는 숨김. 'screenchange' 이벤트로 알림(윤슬 등이 구독)
 function showScreen(id) {
@@ -1167,7 +1167,9 @@ function loadLogo() {
 loadLogo().catch(() => {});                    // 미리 불러 두기
 
 // 명소별 하단 왼쪽 로고(행사 CI 등): 있으면 명소 이름 글자 대신 이 그림을 그림. 없거나 불러오기 실패하면 이름 글자로
-const SPOT_LOGOS = { gncoffee: 'assets/spots/gncoffee.png' };
+const SPOT_LOGOS = { gncoffee: 'assets/spots/gncoffee.png', surfpik: 'assets/spots/surfpik.png' };
+const SPOT_LOGO_WITH_NAME = { surfpik: { h: 150, font: ['400', 28, 'Jua'], gap: 18, onHandle: true } };   // 명소 로고와 이름 글자를 같이 (로고 높이·글꼴·간격, above = 이름을 로고 위에, onHandle = 이름을 가운데 계정 글씨 줄 높이에 두고 로고는 그 위로, 없으면 로고만)
+const SPOT_DATE_DOWN = { surfpik: 30 };          // 명소별 오른쪽 날짜를 아래로 내리는 정도(px, 없으면 0)
 const SPOT_FOOT_LOGO_W = { cafepokpo: 200 };    // 명소별 가운데 우리 로고 폭(없으면 LOGO_W), 계정 글씨는 24px
 const FOOT_SPOT_LOGO_MAXH = 0.7;               // 하단 칸 높이 대비 최대 높이
 let spotLogoPromise = null;
@@ -1493,13 +1495,34 @@ async function drawStripFooter(ctx, s) {
   ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
   ctx.font = FOOT_HANDLE_FONT[0] + ' ' + hpx * s + 'px ' + FOOT_HANDLE_FONT[2] + ', system-ui, sans-serif';
   if ('letterSpacing' in ctx) ctx.letterSpacing = 1 * s + 'px';
-  ctx.fillText(FOOT_HANDLE, STRIP_W / 2 * s, (top + lh + FOOT_HANDLE_GAP + hpx / 2 - FOOT_HANDLE_UP) * s);
+  const handleY = top + lh + FOOT_HANDLE_GAP + hpx / 2 - FOOT_HANDLE_UP;      // 계정 글씨 줄 가운데 높이
+  ctx.fillText(FOOT_HANDLE, STRIP_W / 2 * s, handleY * s);
   ctx.restore();
   const now = new Date();
   const date = now.getFullYear() + '.' + pad2(now.getMonth() + 1) + '.' + pad2(now.getDate());
   const half = STRIP_W / 2, gap = LOGO_W / 2 + FOOT_GAP;
   const cols = [];
-  if (spotLogo) {                                                               // 왼쪽 칸: 명소 로고(이름 글자 대신), 날짜와 같은 중심선
+  const withName = SPOT_LOGO_WITH_NAME[SPOT_CODE];
+  if (spotLogo && SPOT_NAME && withName) {                                     // 왼쪽 칸: 명소 로고 + 이름(위 또는 아래), 덩어리 가운데를 날짜 중심선에
+    const f = withName.font, h = withName.h, w = spotLogo.naturalWidth * (h / spotLogo.naturalHeight);
+    const cx = (CELL_X + half - gap) / 2;
+    ctx.save();
+    ctx.font = f[0] + ' ' + f[1] * s + 'px ' + f[2] + ', system-ui, sans-serif';
+    if ('letterSpacing' in ctx) ctx.letterSpacing = 0.04 * f[1] * s + 'px';
+    const m = ctx.measureText(SPOT_NAME), ta = m.actualBoundingBoxAscent / s, td = m.actualBoundingBoxDescent / s;
+    const top = cy - (h + withName.gap + ta + td) / 2;
+    ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+    let logoTop = withName.above ? top + ta + td + withName.gap : top;
+    let textBase = withName.above ? top + ta : top + h + withName.gap + ta;
+    if (withName.onHandle) {                                                   // 이름 글자 가운데 = 계정 글씨 줄 가운데, 로고는 그 위로 간격만큼
+      textBase = handleY + (ta - td) / 2;
+      logoTop = textBase - ta - withName.gap - h;
+    }
+    ctx.drawImage(spotLogo, (cx - w / 2) * s, logoTop * s, w * s, h * s);
+    ctx.fillStyle = STRIP_INK; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+    ctx.fillText(SPOT_NAME, cx * s, textBase * s);
+    ctx.restore();
+  } else if (spotLogo) {                                                        // 왼쪽 칸: 명소 로고(이름 글자 대신), 날짜와 같은 중심선
     const bx = CELL_X, bw = half - gap - CELL_X, bh = (STRIP_H - FOOT_TOP) * FOOT_SPOT_LOGO_MAXH;
     const k = Math.min(bw / spotLogo.naturalWidth, bh / spotLogo.naturalHeight);
     const w = spotLogo.naturalWidth * k, h = spotLogo.naturalHeight * k;
@@ -1532,7 +1555,8 @@ async function drawStripFooter(ctx, s) {
     const l1 = fit(text, f, x0, x1);
     // 글꼴마다 줄 안에서 글자가 앉는 높이가 달라서(Jua·Fredoka), 실제 글자 모양의 위·아래 끝 가운데를 로고 중심(cy)에 맞춤
     if (!en) {
-      const ty = cy * s + (l1.a - l1.d) / 2;
+      const dy = text === date ? (SPOT_DATE_DOWN[SPOT_CODE] || 0) : 0;   // 날짜만 명소별로 아래로
+      const ty = (cy + dy) * s + (l1.a - l1.d) / 2;
       if (f[3]) { ctx.save(); ctx.strokeStyle = STRIP_INK; ctx.lineWidth = f[3] * s; ctx.lineJoin = 'round'; ctx.strokeText(text, cx, ty); ctx.restore(); }   // 굵게: 같은 색 테두리를 먼저
       ctx.fillText(text, cx, ty); continue;
     }
