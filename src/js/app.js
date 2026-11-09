@@ -1233,7 +1233,7 @@ let zTop = 0;                         // 스티커 z-index 최댓값 (선택하�
 // 스티커 그림을 고치면 STICKER_V 를 올릴 것 — 예전 그림이 캐시에 남지 않게
 const STICKER_V = '4';
 // 장소별 전용 스티커 폴더 (없으면 기본 폴더 assets/stickers/)
-const SPOT_STICKERS = { cafepokpo: 'cafepokpo/', itaewon: 'halloween/' };
+const SPOT_STICKERS = { cafepokpo: 'cafepokpo/', itaewon: 'halloween/', surfpik: 'surfpik/' };
 const stickerUrl = file => 'assets/stickers/' + (SPOT_STICKERS[SPOT_CODE] || '') + file + '?v=' + STICKER_V;
 
 // 테스트용: 스티커 배열을 읽기만 가능하게 노출 (쓰기 없음)
